@@ -11,299 +11,49 @@
     <link rel="stylesheet" type="text/css" href="css/index.css">
 </head>
 
-<body scroll="no">
+<body>
     <div id="deviceready">
-        <div id="toastbox"><span id="toast"></span></div>
-        <div id="firstPage">
-            <div id="firstDate">7月31日-8月20日</div>
-            <div id="login_get" class="firstBtn"></div>
-            <div id="now_get" class="firstBtn"></div>
-        </div>
-        <div id="mainPage">
-            <div id="setAge">
-                <div class="blackBg"></div>
-                <div id="setAgeMain">
-                    <div id="changeAgeBox">
-                        <div id="leftChange">
-                            <div id="set1" class="coocaabtn10 leftbtnTar" downTarget='.pkDdiv:eq(0)'>学龄前</div>
-                            <div id="set2" class="coocaabtn10 leftbtnTar" downTarget='.pkDdiv:eq(0)'>小学低年级</div>
-                            <div id="set3" class="coocaabtn10 leftbtnTar" downTarget='.pkDdiv:eq(0)'>小学高年级</div>
-                            <div id="set4" class="coocaabtn10 leftbtnTar" downTarget='.pkDdiv:eq(0)'>初中</div>
-                            <div id="set5" class="coocaabtn10 leftbtnTar" downTarget='.pkDdiv:eq(0)'>高中</div>
-                        </div>
-                        <div id="rightChange">
-                            <div id="rset1" class="rset">
-                                <div class="coocaabtn10 btnTar pkDdiv" setAge="1">
-                                    <div class="circle"></div>
-                                    <span>0--2岁</span>
-                                </div>
-                                <div class="coocaabtn10 btnTar pkDdiv" setAge="2">
-                                    <div class="circle"></div>
-                                    <span>3--6岁</span>
-                                </div>
-                            </div>
-                            <div id="rset2" class="rset">
-                                <div class="coocaabtn10 btnTar pkDdiv" setAge="3">
-                                    <div class="circle"></div>
-                                    <span>一年级</span>
-                                </div>
-                                <div class="coocaabtn10 btnTar pkDdiv" setAge="4">
-                                    <div class="circle"></div>
-                                    <span>二年级</span>
-                                </div>
-                                <div class="coocaabtn10 btnTar pkDdiv" setAge="5">
-                                    <div class="circle"></div>
-                                    <span>三年级</span>
-                                </div>
-                            </div>
-                            <div id="rset3" class="rset">
-                                <div class="coocaabtn10 btnTar pkDdiv" setAge="6">
-                                    <div class="circle"></div>
-                                    <span>四年级</span>
-                                </div>
-                                <div class="coocaabtn10 btnTar pkDdiv" setAge="7">
-                                    <div class="circle"></div>
-                                    <span>五年级</span>
-                                </div>
-                                <div class="coocaabtn10 btnTar pkDdiv" setAge="8">
-                                    <div class="circle"></div>
-                                    <span>六年级</span>
-                                </div>
-                            </div>
-                            <div id="rset4" class="rset">
-                                <div class="coocaabtn10 btnTar pkDdiv" setAge="9">
-                                    <div class="circle"></div>
-                                    <span>初一</span>
-                                </div>
-                                <div class="coocaabtn10 btnTar pkDdiv" setAge="10">
-                                    <div class="circle"></div>
-                                    <span>初二</span>
-                                </div>
-                                <div class="coocaabtn10 btnTar pkDdiv" setAge="11">
-                                    <div class="circle"></div>
-                                    <span>初三</span>
-                                </div>
-                            </div>
-                            <div id="rset5" class="rset">
-                                <div class="coocaabtn10 btnTar pkDdiv" setAge="12">
-                                    <div class="circle"></div>
-                                    <span>高一</span>
-                                </div>
-                                <div class="coocaabtn10 btnTar pkDdiv" setAge="13">
-                                    <div class="circle"></div>
-                                    <span>高二</span>
-                                </div>
-                                <div class="coocaabtn10 btnTar pkDdiv" setAge="14">
-                                    <div class="circle"></div>
-                                    <span>高三</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="setAgeBtn" class="coocaabtn10"></div>
-                </div>
+        <div id="mainMap">
+            <div id="totalBox">当前已获得<span id="cityNum"></span>张景点卡</div>
+            <div id="cityMap">
+                <div id="city0" class="coocaabtn city" ></div>
+                <div id="city1" class="coocaabtn city" ></div>
+                <div id="city2" class="coocaabtn city" ></div>
+                <div id="city3" class="coocaabtn city" ></div>
+                <div id="city4" class="coocaabtn city" ></div>
+                <div id="city5" class="coocaabtn city" ></div>
+                <div id="city6" class="coocaabtn city" ></div>
+                <div id="city7" class="coocaabtn city" ></div>
+                <div id="city8" class="coocaabtn city" ></div>
+                <div id="city9" class="coocaabtn city" ></div>
+                <div id="city10" class="coocaabtn city" ></div>
+                <div id="city11" class="coocaabtn city" ></div>
+                <div id="city12" class="coocaabtn city" ></div>
+                <div id="city13" class="coocaabtn city" ></div>
+                <div id="city14" class="coocaabtn city" ></div>
             </div>
-            <div class="level coocaabtn" id="level1" leftTarget="#level1" downTarget="#level1" upTarget="#level4">
-                <div class="usericon" id="usericon1"></div>
-                <div class="trueIcon">
-                    <div class="iconImg"></div>
-                </div>
-                <div class="iconbox" id="iconbox1"></div>
+            <div id="cityCard">
+                <div id="cityCard0" class="citycard"><div class="cityWord">欢迎来到台湾 日月潭</div><div class="cityImg"></div><div  class="cityBottom">xxxxxxxxxxxx</div><div class="cityBtn coocaabtn" lefTarget="#city0" upTarget="#city1" downTarget="#city0">hi1</div> </div>
+                <div id="cityCard1" class="citycard"><div class="cityWord">欢迎来到香港 维多利亚港</div><div class="cityImg"></div><div  class="cityBottom">xxxxxxxxxxxx</div><div class="cityBtn coocaabtn" upTarget="#city2" downTarget="#city0">hi2</div> </div>
+                <div id="cityCard2" class="citycard"><div class="cityWord">欢迎来到广西 桂林山水</div><div class="cityImg"></div><div  class="cityBottom">xxxxxxxxxxxx</div><div class="cityBtn coocaabtn" upTarget="#city3" downTarget="#city1">hi3</div> </div>
+                <div id="cityCard3" class="citycard"><div class="cityWord">欢迎来到湖南 张家界</div><div class="cityImg"></div><div  class="cityBottom">xxxxxxxxxxxx</div><div class="cityBtn coocaabtn" upTarget="#city4" downTarget="#city2">hi3</div> </div>
+                <div id="cityCard4" class="citycard"><div class="cityWord">欢迎来到浙江 杭州西湖</div><div class="cityImg"></div><div  class="cityBottom">xxxxxxxxxxxx</div><div class="cityBtn coocaabtn" upTarget="#city5" downTarget="#city3">hi3</div> </div>
+                <div id="cityCard5" class="citycard"><div class="cityWord">欢迎来到江苏 苏州园林</div><div class="cityImg"></div><div  class="cityBottom">xxxxxxxxxxxx</div><div class="cityBtn coocaabtn" upTarget="#city6" downTarget="#city4">hi3</div> </div>
+                <div id="cityCard6" class="citycard"><div class="cityWord">欢迎来到黑龙江 雪乡</div><div class="cityImg"></div><div  class="cityBottom">xxxxxxxxxxxx</div><div class="cityBtn coocaabtn" upTarget="#city7" downTarget="#city5">hi3</div> </div>
+                <div id="cityCard7" class="citycard"><div class="cityWord">欢迎来到内蒙古 鄂尔多斯大草原</div><div class="cityImg"></div><div  class="cityBottom">xxxxxxxxxxxx</div><div class="cityBtn coocaabtn" upTarget="#city8" downTarget="#city6">hi3</div> </div>
+                <div id="cityCard8" class="citycard"><div class="cityWord">欢迎来到甘肃 敦煌莫高窟</div><div class="cityImg"></div><div  class="cityBottom">xxxxxxxxxxxx</div><div class="cityBtn coocaabtn" upTarget="#city9" downTarget="#city7">hi3</div> </div>
+                <div id="cityCard9" class="citycard"><div class="cityWord">欢迎来到新疆 喀纳斯湖</div><div class="cityImg"></div><div  class="cityBottom">xxxxxxxxxxxx</div><div class="cityBtn coocaabtn" upTarget="#city10" downTarget="#city8">hi3</div> </div>
+                <div id="cityCard10" class="citycard"><div class="cityWord">欢迎来到西藏 布达拉宫</div><div class="cityImg"></div><div  class="cityBottom">xxxxxxxxxxxx</div><div class="cityBtn coocaabtn" upTarget="#city11" downTarget="#city9">hi3</div> </div>
+                <div id="cityCard11" class="citycard"><div class="cityWord">欢迎来到云南 大理古城</div><div class="cityImg"></div><div  class="cityBottom">xxxxxxxxxxxx</div><div class="cityBtn coocaabtn" upTarget="#city12" downTarget="#city10">hi3</div> </div>
+                <div id="cityCard12" class="citycard"><div class="cityWord">欢迎来到四川 九寨沟</div><div class="cityImg"></div><div  class="cityBottom">xxxxxxxxxxxx</div><div class="cityBtn coocaabtn" upTarget="#city13" downTarget="#city11">hi3</div> </div>
+                <div id="cityCard13" class="citycard"><div class="cityWord">欢迎来到陕西 秦始皇兵马俑</div><div class="cityImg"></div><div  class="cityBottom">xxxxxxxxxxxx</div><div class="cityBtn coocaabtn" upTarget="#city14" downTarget="#city12">hi3</div> </div>
+                <div id="cityCard14" class="citycard"><div class="cityWord">欢迎来到北京 天安门</div><div class="cityImg"></div><div  class="cityBottom">xxxxxxxxxxxx</div><div class="cityBtn coocaabtn" upTarget="#city14" downTarget="#city13">hi3</div> </div>
             </div>
-            <div class="level coocaabtn" id="level2" upTarget="#level4" downTarget="#level2">
-                <div class="usericon" id="usericon2"></div>
-                <div class="trueIcon">
-                    <div class="iconImg"></div>
-                </div>
-                <div class="iconbox" id="iconbox2"></div>
-            </div>
-            <div class="level coocaabtn" id="level3" upTarget="#level4" downTarget="#level3" rightTarget="#eduenter">
-                <div class="usericon" id="usericon3"></div>
-                <div class="trueIcon">
-                    <div class="iconImg"></div>
-                </div>
-                <div class="iconbox" id="iconbox3"></div>
-            </div>
-            <div class="level coocaabtn" id="level4" upTarget="#level7" downTarget="#level3" rightTarget="#eduenter" leftTarget="#level5">
-                <div class="usericon" id="usericon4"></div>
-                <div class="trueIcon">
-                    <div class="iconImg"></div>
-                </div>
-                <div class="iconbox" id="iconbox4"></div>
-            </div>
-            <div class="level coocaabtn" id="level5" upTarget="#level7" downTarget="#level3" rightTarget="#level4" leftTarget="#level6">
-                <div class="usericon" id="usericon5"></div>
-                <div class="trueIcon">
-                    <div class="iconImg"></div>
-                </div>
-                <div class="iconbox" id="iconbox5"></div>
-            </div>
-            <div class="level coocaabtn" id="level6" upTarget="#level7" downTarget="#level3" rightTarget="#level5" leftTarget="#level6">
-                <div class="usericon" id="usericon6"></div>
-                <div class="trueIcon">
-                    <div class="iconImg"></div>
-                </div>
-                <div class="iconbox" id="iconbox6"></div>
-            </div>
-            <div class="level coocaabtn" id="level7" upTarget="#level7" downTarget="#level6" rightTarget="#level8" leftTarget="#level7">
-                <div class="usericon" id="usericon7"></div>
-                <div class="trueIcon">
-                    <div class="iconImg"></div>
-                </div>
-                <div class="iconbox" id="iconbox7"></div>
-            </div>
-            <div class="level coocaabtn" id="level8" upTarget="#level8" downTarget="#level6" rightTarget="#level9" leftTarget="#level7">
-                <div class="usericon" id="usericon8"></div>
-                <div class="trueIcon">
-                    <div class="iconImg"></div>
-                </div>
-                <div class="iconbox" id="iconbox8"></div>
-            </div>
-            <div class="level coocaabtn" id="level9" upTarget="#level9" downTarget="#level6" rightTarget="#level10" leftTarget="#level8">
-                <div class="usericon" id="usericon9"></div>
-                <div class="trueIcon">
-                    <div class="iconImg"></div>
-                </div>
-                <div class="iconbox" id="iconbox9"></div>
-            </div>
-            <div class="level coocaabtn" id="level10" upTarget="#level10" downTarget="#level6" rightTarget="#level10" leftTarget="#level9">
-                <div class="usericon" id="usericon10"></div>
-                <div class="trueIcon">
-                    <div class="iconImg"></div>
-                </div>
-                <div class="iconbox" id="iconbox10"></div>
-            </div>
-            <div id="gift1" class="gift"></div>
-            <div id="gift2" class="gift"></div>
-            <div id="gift3" class="gift"></div>
-            <div id="gift4" class="gift"></div>
-            <div id="mainDate">7月31日-8月20日</div>
-            <div id="eduenter" class="coocaabtn" upTarget="#eduenter" downTarget="#eduenter" rightTarget="#eduenter" leftTarget="#level3"></div>
-            <div id="iconNum"></div>
-            <div id="missionWindow">
-                <div class="blackBg"></div>
-                <div id="lockMission" class="normalWindow coocaabtn1 closeWindow"></div>
-                <div id="noMission" class="normalWindow coocaabtn2 closeWindow"></div>
-                <div id="limit" class="normalWindow">
-                    <div id="learn" class="limitbtn coocaabtn3"></div>
-                    <div id="nextlearn" class="limitbtn coocaabtn3 closeWindow"></div>
-                </div>
-                <div id="award">
-                    <div id="bigtitle"></div>
-                    <div id="awardListBox">
-                    </div>
-                    <div id="awardclose" class="coocaabtn4 closeWindow"></div>
-                </div>
-                <div id="mission">
-                    <div id="smalltitle"></div>
-                    <div id="missionListBox">
-                    </div>
-                    <div id="missionclose" class="coocaabtn5 closeWindow"></div>
-                </div>
-                <div id="vipright3" class="vipright">
-                    <div id="day3" class="day">
-                        <div id="k3box" class="kbox">
-                            <div class=" falsedays "></div>
-                            <div class="coocaabtn6 getdays" rigthType="r1">0-2岁</div>
-                            <div class="coocaabtn6 getdays" rigthType="r2">3-6岁</div>
-                            <div class=" falsedays "></div>
-                            <div class="coocaabtn6 getdays" rigthType="r3">一年级</div>
-                            <div class="coocaabtn6 getdays" rigthType="r4">二年级</div>
-                            <div class="coocaabtn6 getdays" rigthType="r5">三年级</div>
-                            <div class="coocaabtn6 getdays" rigthType="r6">四年级</div>
-                            <div class="coocaabtn6 getdays" rigthType="r7">五年级</div>
-                            <div class="coocaabtn6 getdays" rigthType="r8">六年级</div>
-                            <div class="coocaabtn6 getdays" rigthType="r9">初一</div>
-                            <div class="coocaabtn6 getdays" rigthType="r10">初二</div>
-                            <div class="coocaabtn6 getdays" rigthType="r11">初三</div>
-                            <div class="coocaabtn6 getdays" rigthType="r12">高一</div>
-                            <div class="coocaabtn6 getdays" rigthType="r13">高二</div>
-                            <div class="coocaabtn6 getdays" rigthType="r14">高三</div>
-                        </div>
-                        <div id="get3now" class="coocaabtn6 getnow"></div>
-                    </div>
-                </div>
-                <div id="vipright15" class="vipright">
-                    <div id="day15" class="day">
-                        <div id="k15box" class="kbox">
-                            <div class=" falsedays "></div>
-                            <div class="coocaabtn6 getdays" rigthType="r15">0-2岁</div>
-                            <div class="coocaabtn6 getdays" rigthType="r16">3-6岁</div>
-                            <div class=" falsedays "></div>
-                            <div class="coocaabtn6 getdays" rigthType="r17">一年级</div>
-                            <div class="coocaabtn6 getdays" rigthType="r18">二年级</div>
-                            <div class="coocaabtn6 getdays" rigthType="r19">三年级</div>
-                            <div class="coocaabtn6 getdays" rigthType="r20">四年级</div>
-                            <div class="coocaabtn6 getdays" rigthType="r21">五年级</div>
-                            <div class="coocaabtn6 getdays" rigthType="r22">六年级</div>
-                            <div class="coocaabtn6 getdays" rigthType="r23">初一</div>
-                            <div class="coocaabtn6 getdays" rigthType="r24">初二</div>
-                            <div class="coocaabtn6 getdays" rigthType="r25">初三</div>
-                            <div class="coocaabtn6 getdays" rigthType="r26">高一</div>
-                            <div class="coocaabtn6 getdays" rigthType="r27">高二</div>
-                            <div class="coocaabtn6 getdays" rigthType="r28">高三</div>
-                        </div>
-                        <div id="get15now" class="coocaabtn6 getnow"></div>
-                    </div>
-                </div>
-                <div id="buypkg3" class="buypkg">
-                    <div id="buy3" class="buy">
-                        <div id="b3box" class="bbox">
-                            <div class=" falsedays "></div>
-                            <div class="coocaabtn7 buydays" pkgType="r1">0-2岁</div>
-                            <div class="coocaabtn7 buydays" pkgType="r2">3-6岁</div>
-                            <div class=" falsedays "></div>
-                            <div class="coocaabtn7 buydays" pkgType="r3">一年级</div>
-                            <div class="coocaabtn7 buydays" pkgType="r4">二年级</div>
-                            <div class="coocaabtn7 buydays" pkgType="r5">三年级</div>
-                            <div class="coocaabtn7 buydays" pkgType="r6">四年级</div>
-                            <div class="coocaabtn7 buydays" pkgType="r7">五年级</div>
-                            <div class="coocaabtn7 buydays" pkgType="r8">六年级</div>
-                            <div class="coocaabtn7 buydays" pkgType="r9">初一</div>
-                            <div class="coocaabtn7 buydays" pkgType="r10">初二</div>
-                            <div class="coocaabtn7 buydays" pkgType="r11">初三</div>
-                            <div class="coocaabtn7 buydays" pkgType="r12">高一</div>
-                            <div class="coocaabtn7 buydays" pkgType="r13">高二</div>
-                            <div class="coocaabtn7 buydays" pkgType="r14">高三</div>
-                        </div>
-                        <div id="buy3now" class="coocaabtn7 buynow"></div>
-                    </div>
-                </div>
-                <div id="buypkg6" class="buypkg">
-                    <div id="buy6" class="buy">
-                        <div id="b6box" class="bbox">
-                            <div class=" falsedays "></div>
-                            <div class="coocaabtn7 buydays" pkgType="r15">0-2岁</div>
-                            <div class="coocaabtn7 buydays" pkgType="r16">3-6岁</div>
-                            <div class=" falsedays "></div>
-                            <div class="coocaabtn7 buydays" pkgType="r17">一年级</div>
-                            <div class="coocaabtn7 buydays" pkgType="r18">二年级</div>
-                            <div class="coocaabtn7 buydays" pkgType="r19">三年级</div>
-                            <div class="coocaabtn7 buydays" pkgType="r20">四年级</div>
-                            <div class="coocaabtn7 buydays" pkgType="r21">五年级</div>
-                            <div class="coocaabtn7 buydays" pkgType="r22">六年级</div>
-                            <div class="coocaabtn7 buydays" pkgType="r23">初一</div>
-                            <div class="coocaabtn7 buydays" pkgType="r24">初二</div>
-                            <div class="coocaabtn7 buydays" pkgType="r25">初三</div>
-                            <div class="coocaabtn7 buydays" pkgType="r26">高一</div>
-                            <div class="coocaabtn7 buydays" pkgType="r27">高二</div>
-                            <div class="coocaabtn7 buydays" pkgType="r28">高三</div>
-                        </div>
-                        <div id="buy6now" class="coocaabtn7 buynow"></div>
-                    </div>
-                </div>
-                <div id="receiveResult">
-                    <div id="receiveSuccess" class="receiveResult">
-                        <div id="receiveword">成功领取N天N年级会员</div>
-                        <div id="learnnow" class="coocaabtn8 receivebtn1"></div>
-                        <div id="learnlater" class="coocaabtn8 receivebtn2 closeWindow"></div>
-                    </div>
-                    <div id="receiveFail" class="receiveResult">
-                        <div id="tryagain" class="coocaabtn8 receivebtn1"></div>
-                        <div id="trylater" class="coocaabtn8 receivebtn2 closeWindow"></div>
-                    </div>
-                    <div id="receiveGetting" class="receiveResult"></div>
-                </div>
+            <div id="rightBtn">
+                <div id="gotoLottery" class="coocaabtn rightBtn">我要抽奖</div>
+                <div id="morecard" class="coocaabtn rightBtn">更多景点卡</div>
+                <div id="myGift" class="coocaabtn rightBtn">我的礼包</div>
+                <div id="strategy" class="coocaabtn rightBtn">万元现金攻略</div>
             </div>
         </div>
     </div>
@@ -313,28 +63,10 @@
     <script type="text/javascript" src="js/index.js"></script>
     <script type="text/javascript" src="js/assist.js"></script>
     <script type="text/javascript" src="js/adjust.js"></script>
-    <script type="text/javascript" src="js/jquery.arctext.js"></script>
     <script type="text/javascript" src="js/coocaamap-1.1.js"></script>
     <script type="text/javascript">
     window.onload = function() {
-        setTimeout('$("#firstPage").attr("class","show")', 0);
-        setTimeout('$("#mainPage").attr("class","show")', 0);
-        setTimeout('$("#changeAgeBox").attr("class","show")', 0);
-        setTimeout('$("#award").attr("class","show")', 0);
-        setTimeout('$("#mission").attr("class","show")', 0);
-        setTimeout('$("#setAgeBtn").attr("class","coocaabtn10 show")', 0);
-        setTimeout('$("#lockMission").attr("class","coocaabtn1 normalWindow closeWindow show")', 0);
-        setTimeout('$("#noMission").attr("class","coocaabtn2 normalWindow closeWindow show")', 0);
-        setTimeout('$("#limit").attr("class","normalWindow show")', 0);
-        setTimeout('$("#rightChange").attr("class","show")', 0);
-        setTimeout('$("#day3").attr("class","day show")', 0);
-        setTimeout('$("#day15").attr("class","day show")', 0);
-        setTimeout('$("#buy3").attr("class","day show")', 0);
-        setTimeout('$("#buy6").attr("class","day show")', 0);
-        setTimeout('$("#receiveSuccess").attr("class","receiveResult show")', 0);
-        setTimeout('$("#receiveFail").attr("class","receiveResult show")', 0);
-        setTimeout('$("#receiveGetting").attr("class","receiveResult show")', 0);
-        setTimeout('$("#eduenter img").attr("src","http://sky.fs.skysrt.com/statics/webvip/webapp/edu/eduenter.png")', 0)
+        showPage()
     }
     </script>
 </body>
