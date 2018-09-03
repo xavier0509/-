@@ -10,7 +10,7 @@ function hasLogin(needQQ) {
             }
             user_flag = 0;
             access_token = "";
-            showPage();
+            // showPage();
         } else {
             coocaaosapi.getUserInfo(function(message) {
                 console.log("funnyxxxxxx==" + JSON.stringify(message))
@@ -19,24 +19,6 @@ function hasLogin(needQQ) {
                 exterInfo = message.external_info;
                 mobile = message.mobile;
                 avatar = message.avatar;
-                if(avatar != null && avatar != "" && avatar != undefined){
-                    $(".iconImg").css("background","url("+avatar+")");
-                    $(".iconImg").css("background-size","100%");
-                }else{
-                    for (var i = 0; i < 3; i++) {
-                        $(".iconImg:eq("+i+")").css("background","url(http://sky.fs.skysrt.com/statics/webvip/webapp/edu/user_1.jpg)");
-                        $(".iconImg").css("background-size","100%");
-                    }
-                    for (var i = 3; i < 6; i++) {
-                        $(".iconImg:eq("+i+")").css("background","url(http://sky.fs.skysrt.com/statics/webvip/webapp/edu/user_2.jpg)");
-                        $(".iconImg").css("background-size","100%");
-                    }
-                    for (var i = 6; i < 10; i++) {
-                        $(".iconImg:eq("+i+")").css("background","url(http://sky.fs.skysrt.com/statics/webvip/webapp/edu/user_3.jpg)");
-                        $(".iconImg").css("background-size","100%");
-                    }
-                    
-                }
                 if (mobile == undefined) {
                     mobile = "";
                 }
@@ -75,11 +57,11 @@ function hasLogin(needQQ) {
                                         loginstatus = "false";
                                     }
                                 }
-                                showPage();
+                                // showPage();
                             } else {
                                 tencentWay = "both";
                                 loginstatus = "false";
-                                showPage();
+                                // showPage();
                             }
                         } else {
                             var needSelectNum = 0;
@@ -107,7 +89,7 @@ function hasLogin(needQQ) {
                                     loginstatus = "false";
                                 }
                             }
-                            showPage();
+                            // showPage();
                         }
                     } else {
                         qqinfo = JSON.parse(exterInfo);
@@ -132,7 +114,7 @@ function hasLogin(needQQ) {
                             return;
                         }else{
                             showFlag = access_token
-                            showPage();
+                            // showPage();
                         }
                     }
                 }, function(error) { console.log(error); })
@@ -317,4 +299,34 @@ function showtoast(data){
     $("#toast").html(data);
     $("#toast").show();
     setTimeout("$('#toast').hide()",2000);
+}
+
+function lightCityApi(obj,num,type) {
+    $.ajax({
+        type: "GET",
+        async: true,
+        url: adressIp + "/light/u/"+actionId+"/up",
+        data: {id:actionId, MAC:macAddress,cChip:TVchip,cModel:TVmodel,cEmmcCID:emmcId,cUDID:activityId},
+        dataType: "jsonp",
+        jsonp: "callback",
+        success: function(data) {
+            console.log("---------------lightCity----result-----------------------------"+JSON.stringify(data));
+            if (data.code == 50100) {
+                if(type == "A001"){
+                    console.log("直接点亮城市");
+                    $(obj).html("恭喜点亮");
+                    $(obj).addClass("hasLight");
+                    $("#city"+num).addClass("hasLight");
+                    cityNum += 1;
+                    $("#cityNum").html(cityNum);
+                    needFresh = true;
+                }
+            } else {
+
+            }
+        },
+        error: function(error) {
+            console.log("--------访问失败" + JSON.stringify(error));
+        }
+    });
 }

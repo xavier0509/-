@@ -17,6 +17,7 @@ body {
     overflow: hidden;
 }
 #mainMap{
+    background: #cccccc;
     width: 1920px;
     height: 1080px;
     overflow: hidden;
@@ -79,4 +80,65 @@ body {
 }
 .rightBtn.btnFocus{
     background: yellow;
+}
+
+#moreChance{
+    width:1920px;
+    height:1080px;
+    background: aliceblue;
+    position: absolute;
+    top:0;
+    left:0;
+    overflow: hidden;
+    display: none;
+}
+.coocaabtn2{
+    width: 300px;
+    height:300px;
+    background: palegreen;
+    margin: 100px;
+}
+#strategyPage{
+    display: none;
+    width: 1920px;
+    height:1080px;
+    background: cornflowerblue;
+    overflow: auto;
+}
+#strategyPage.show{
+    background: url("../images/test.jpg");
+}
+
+
+
+
+#city9{
+    position: absolute;
+    top: 0px;
+    left:600px;
+}
+#city10{
+    position: absolute;
+    top: 120px;
+    left:600px;
+}
+#city11{
+    position: absolute;
+    top: 240px;
+    left:600px;
+}
+#city12{
+    position: absolute;
+    top: 360px;
+    left:600px;
+}
+#city13{
+    position: absolute;
+    top: 480px;
+    left:600px;
+}
+#city14{
+    position: absolute;
+    top: 600px;
+    left:600px;
 }

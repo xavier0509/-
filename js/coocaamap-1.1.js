@@ -150,7 +150,6 @@ coocaakeymap.prototype.keyHandler = function(_this, ev){
     if(_this.focusDomMoving == true){
         return;
     }
-    console.log("用户正在点击按键：keyCode=" + ev.keyCode);
     //var ev = event;
     var curKey = ev.keyCode;
     debug("<br/>");

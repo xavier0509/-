@@ -4,7 +4,8 @@ var deviceInfo = null; //设备信息
 var macAddress = null; //mac
 var TVmodel = null; //机型	
 var TVchip = null; //机芯
-var activityId = null; //激活id	
+var activityId = null; //激活id
+var emmcId = null;//emmcid;
 var loginstatus = null; //登录状态-string
 var tencentWay = null; //腾讯源机器调用登录的要求（both,qq,weixin)
 var user_flag = null; //下单传递用户标识1-token；2-openid
@@ -22,9 +23,15 @@ var needRememberFocus = false;//刷新后是否需要记录焦点
 var rememberFocus = null;//刷新后需要记录的焦点选择器
 
 var setFocusFirst = false;//用于初始化焦点时的标志位，若true则不再焦点化【离起点最近的未点亮】
-var lightCity = ["city3","city6","city0","city1"];//已经点亮城市的列表
-var cityNum = lightCity.length;
-var totalNum = 0;//总的点亮次数
-var remainNum = 3;
+var lightCity = [];//已经点亮城市的列表
+var cityNum = null;
+var totalNum = null;//总的点亮次数
+var remainNum = null;
 
-var gameTime = "end";
+var gameTime = "start";
+var beginTime = null;
+var endTime = null;
+var nowTime = null;
+
+var adressIp = "http://172.20.139.236:9094";
+var actionId = "137";
