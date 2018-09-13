@@ -16,71 +16,313 @@ body {
     height: 1080px;
     overflow: hidden;
 }
-#mainMap{
-    background: #cccccc;
+#blackbg{
+    display:none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 1920px;
+    height: 1080px;
+    background-color: black;
+    -moz-opacity: 0.8;
+    opacity: 0.80;
+    filter: alpha(opacity=80);
+    z-index: 22;
+}
+.toast2{
+    display: none;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    width: 837px;
+    height: 523px;
+    position: absolute;
+    margin: auto;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/toast.png");
+    z-index: 33;
+}
+.awardBtn1,.awardBtn2{
+    position: absolute;
+    display: inline-block;
+    top: 415px;
+    left:185px;
+    height: 92px;
+    width: 233px;
+}
+.choicebtn1,.choicebtn2{
+    position: absolute;
+    display: block;
+    top: 18.5px;
+    left: 20px;
+    height: 55px;
+    width: 194px;
+}
+.awardBtn2{
+    left:430px ;
+}
+.toastbtn1{
+    display: none;
+}
+.btnFocus .toastbtn1{
+    display: block;
+}
+#nowhave{
+    width:50px;
+    height:26px;
+    position: absolute;
+    top:333px;
+    left:595px;
+    line-height: 26px;
+    font-size: 26px;
+    text-align: center;
+    color: #ffff66;
+}
+#mainMap,#endPage{
+    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/newbg.jpg");
     width: 1920px;
     height: 1080px;
     overflow: hidden;
     position: absolute;
     top:0;
     left:0;
+    display: none;
 }
-.city{
-    width:100px;
-    height:100px;
-    background: skyblue;
-    margin-top: 20px;
+#endPage{
+    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/gameend.jpg");
 }
-.city.hasLight{
-    background: red;
+#cityNum{
+    position: absolute;
+    display: block;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    top: 541.2px;
+    right: 157px;
+    z-index: 11;
+    color: white;
+    font-size: 16px;
+    color: #ffff00;
 }
-.city.focus{
-    background: cornflowerblue;
+#gifPic{
+    width: 240px;
+    height:240px;
+    position: absolute;
+    top:500px;
+    right: 200px;
+    z-index: 333;
+}
+#remainNum{
+    display: block;
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    position: absolute;
+    top: 988px;
+    right: 528px;
+    z-index: 11;
+    color: #ffff00;
+    font-size: 30px;
+}
+#lefttips{
+    width: 58px;
+    height:392px;
+    position: absolute;
+    left:15px;
+    top:381px;
+    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/lefttips.png");
+    display: none;
+}
+#mapline{
+    width: 565px;
+    height:467px;
+    position: absolute;
+    z-index: 22;
+    left:290px;
+    top:389px;
+    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/xuxian.png");
 }
 
 .citycard{
-    width: 200px;
-    height: 300px;
-    background: pink;
     display: none;
+    text-align: center;
+}
+.cityWord{
+    text-align: center;
+    width:375px;
+    height: 100px;
     position: absolute;
-    top:100px;
-    left:300px;
+    left:1063px;
+    top:287px;
+    font-size: 36px;
+    color: #0e7a6b;
+    font-weight: normal;
+}
+.word1{
+    font-size: 32px;
+    font-weight: bold;
 }
 .cityImg{
-    width:150px;
-    height:150px;
-    background: white;
-    margin-left: 25px;
+    width:375px;
+    height:215px;
+    position: absolute;
+    top:395px;
+    left:1063px;
+}
+.cardTitle{
+    width:375px;
+    height: 45px;
+    position: absolute;
+    top:646px;
+    left:1063px;
+    font-size: 30px;
+    line-height: 45px;
+    color: #fff;
+}
+.cityBottom{
+    width: 412px;
+    height: 165px;
+    position: absolute;
+    top: 700px;
+    left: 1045px;
+    font-size: 36px;
+    line-height: 45px;
+}
+.xinyu1{
+    width: 475px;
+    height: 42px;
+    display: block;
+    position: fixed;
+    left:1009px;
+    top:706px;
+    font-size: 20px;
+    color: #888;
+    text-align: center;
+}
+.xinyu2{
+    width: 475px;
+    height: 42px;
+    display: block;
+    position: fixed;
+    left:1009px;
+    top:750px;
+    font-size: 20px;
+    color: #888;
+    text-align: right;
+}
+.xinyu3{
+    width: 475px;
+    height: 45px;
+    display: block;
+    position: fixed;
+    left:1009px;
+    top:813px;
+    font-size: 22px;
+    color: #0baa93;
+    text-align: center;
+}
+.lightmoney,.missionName,.immediatelyname,.finishlightname,.nochancename{
+    width: 475px;
+    height: 158px;
+    line-height:158px;
+    display: block;
+    position: fixed;
+    left:1013px;
+    top:701px;
+    font-size: 24px;
+    color: #0baa93;
+    text-align: center;
+}
+.awardimg{
+    display: block;
+    position: fixed;
+    left:1077px;
+    top:711px;
+    width: 140px;
+    height: 140px;
+    background:white ;
+}
+.awardword{
+    display: block;
+    position: fixed;
+    top:711px;
+    left:1223px;
+    width: 233px;
+    height:140px;
+    font-size: 22px;
+    color: #0bac96;
+    text-align: left;
+    padding-top: 25px;
 }
 .cityBtn{
-    width:100px;
-    height:50px;
-    background: greenyellow;
+    width:248px;
+    height:88px;
+    line-height: 78px;
+    font-weight: bold;
+    color: #014239;
+    font-size: 32px;
+    /*background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/cardbtnfocus.png");*/
+    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/cardbtn.gif");
+    position: absolute;
+    top:867px;
+    left:1136px;
 }
 .cityBtn.btnFocus{
-    background: yellow;
+    width:229px;
+    height:81px;
+    line-height: 70px;
+    color: #874000;
+    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/cardbtn.png");
 }
 .cityBtn.btnFocus.hasLight{
-    background: greenyellow;
+    /*background: greenyellow;*/
 }
-#rightBtn{
+#rightBtn,#rightBtn2{
     position: absolute;
-    top:0;
+    top:371px;
     right:0;
     height: 1080px;
     width:300px;
 }
+
 .rightBtn{
     display: none;
-    width:150px;
-    height:60px;
-    background: greenyellow;
-    margin-top: 30px;
+    width:267px;
+    height:95px;
+    margin-bottom: 25px;
+    position: relative;
+    background: red;
 }
-.rightBtn.btnFocus{
-    background: yellow;
+#gotoLottery{
+    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/lottery.png");
 }
+#gotoLottery.btnFocus{
+    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/lotteryfocus.png");
+}
+#myGift,#myGift2{
+    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/gift.png");
+}
+#myGift.btnFocus,#myGift2.btnFocus{
+    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/giftfocus.png");
+}
+#morecard{
+    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/morecard.png");
+}
+#morecard.btnFocus{
+    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/morecardfocus.png");
+}
+#strategy{
+    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/strategy.png");
+}
+#strategy.btnFocus{
+    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/strategyfocus.png");
+}
+
+
 
 #moreChance{
     width:1920px;
@@ -91,54 +333,179 @@ body {
     left:0;
     overflow: hidden;
     display: none;
+    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/moreChance/newbg123.jpg");
 }
 .coocaabtn2{
-    width: 300px;
-    height:300px;
-    background: palegreen;
-    margin: 100px;
+    width: 286px;
+    height:322px;
+    /*background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/moreChance/test.png");*/
+    position: absolute;
+    border: 4px solid transparent;
+}
+.moviePkg{top:255px; }
+.qmallPkg{top:606px; }
+.moviePkg:nth-child(1),.qmallPkg:nth-child(5){left:287px}
+.moviePkg:nth-child(2),.qmallPkg:nth-child(6){left:684px}
+.moviePkg:nth-child(3),.qmallPkg:nth-child(7){left:1083px}
+.moviePkg:nth-child(4),.qmallPkg:nth-child(8){left:1481px}
+.btnFocus.coocaabtn2{
+    padding: 0px;
+    border: 4px solid #30b971;
+    box-shadow:0px 10px 25px rgba(0,0,0,0.3);
+}
+.buybtn{
+    position: absolute;
+    top: 247px;
+    left: 59px;
+    width: 166px;
+    height:66px;
+    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/moreChance/buy.png");
+}
+.btnFocus .buybtn{
+    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/moreChance/buyfocus.png");
+}
+#moreMovie{
+    width: 332px;
+    height:116px;
+    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/moreChance/moremovie.png");
+    position: absolute;
+    top:964px;
+    left:444px;
+}
+#moreMovie.btnFocus{
+    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/moreChance/moremoviefocus.png");
+    border: 0px;
+    box-shadow:0px 0px 0px rgba(0,0,0,0.3);
+}
+#moreEdu{
+    width: 363px;
+    height:116px;
+    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/moreChance/moreedu.png");
+    position: absolute;
+    top:964px;
+    left:776px;
+}
+#moreEdu.btnFocus{
+    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/moreChance/moreedufocus.png");
+    border: 0px;
+    box-shadow:0px 0px 0px rgba(0,0,0,0.3);
+}
+#moreMall{
+    width: 341px;
+    height:116px;
+    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/moreChance/moremall.png");
+    position: absolute;
+    top:964px;
+    left:1139px;
+}
+#moreMall.btnFocus{
+    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/moreChance/moremallfocus.png");
+    border: 0px;
+    box-shadow:0px 0px 0px rgba(0,0,0,0.3);
 }
 #strategyPage{
     display: none;
     width: 1920px;
     height:1080px;
-    background: cornflowerblue;
+    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/rulebg.jpg");
+}
+.boxChoices{
+    position: absolute;
+    display: inline-block;
+    top: 0;
+    height: 64px;
+    width: 233px;
+    line-height: 64px;
+    text-align: center;
+    color: #66340c;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    z-index: 100;
+}
+#tips{
+    left: 720px;
+    font-size: 32px;
+    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/rule.png");
+}
+#rule{
+    right: 715px;
+    font-size: 32px;
+    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/rule.png");
+}
+#rule.focus{
+    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/rulefocus.png");
+}
+#tips.focus{
+    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/rulefocus.png");
+}
+#rulebox,#tipsbox{
+    width:1848px;
+    height:922px;
     overflow: auto;
+    position: absolute;
+    top: 116px;
+    left:35px;
+    display: none;
 }
-#strategyPage.show{
-    background: url("../images/test.jpg");
-}
+#city0{position:absolute;top:753px;left:782px;width:55px;height:106px;background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/tw1.png);}
+#city0.hasLight{background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/tw2.png);}
+#city0.focus{background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/tw3.png);}
+#city0.focus.hasLight{background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/tw4.png);}
+#city1{position:absolute;top:775px;left:621px;z-index:1;width:118px;height:116px;background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/gz1.png);}
+#city1.hasLight{background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/gz2.png);}
+#city1.focus{background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/gz33.png);}
+#city1.focus.hasLight{background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/gz44.png);}
+#city2{position:absolute;top:762px;left:552px;z-index:1;width:103px;height:126px;background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/gx1.png);}
+#city2.hasLight{background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/gx2.png);}
+#city2.focus{background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/gx3.png);}
+#city2.focus.hasLight{background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/gx4.png);}
+#city3{position:absolute;top:698px;left:601px;width:84px;height:119px;background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/hn1.png);}
+#city3.hasLight{background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/hn2.png);}
+#city3.focus{background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/hn3.png);}
+#city3.focus.hasLight{background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/hn4.png);}
+#city4{position:absolute;top:653px;left:747px;z-index:1;width:67px;height:107px;background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/zj1.png);}
+#city4.hasLight{background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/zj2.png);}
+#city4.focus{z-index:33;background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/zj33.png);}
+#city4.focus.hasLight{z-index:33;background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/zj44.png);}
+#city5{position:absolute;top:571px;left:717px;width:74px;height:131px;background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/js1.png);}
+#city5.hasLight{background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/js2.png);}
+#city5.focus{z-index:33;background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/js33.png);}
+#city5.focus.hasLight{z-index:33;background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/js44.png);}
+#city6{position:absolute;top:270px;left:712px;width:189px;height:163px;background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/hlj1.png);}
+#city6.hasLight{background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/hlj2.png);}
+#city6.focus{background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/hlj3.png);}
+#city6.focus.hasLight{background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/hlj4.png);}
+#city7{position:absolute;top:302px;left:447px;width:324px;height:286px;background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/nmg1.png);}
+#city7.hasLight{background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/nmg2.png);}
+#city7.focus{background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/nmg3.png);}
+#city7.focus.hasLight{background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/nmg4.png);}
+#city8{position:absolute;top:453px;left:375px;width:213px;height:221px;background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/gs1.png);}
+#city8.hasLight{background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/gs2.png);}
+#city8.focus{background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/gs3.png);}
+#city8.focus.hasLight{background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/gs4.png);}
+#city9{position:absolute;top:374px;left:101px;width:304px;height:226px;background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/xj1.png);}
+#city9.hasLight{background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/xj2.png);}
+#city9.focus{background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/xj33.png);}
+#city9.focus.hasLight{background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/xj44.png);}
+#city10{position:absolute;top:596px;left:133px;width:304px;height:182px;background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/xz1.png);}
+#city10.hasLight{background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/xz2.png);}
+#city10.focus{z-index:33;background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/xz33.png);}
+#city10.focus.hasLight{z-index:33;background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/xz44.png);}
+#city11{position:absolute;top:757px;left:409px;z-index:1;width:146px;height:128px;background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/yn1.png);}
+#city11.hasLight{background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/yn2.png);}
+#city11.focus{z-index:33;background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/yn33.png);}
+#city11.focus.hasLight{z-index:33;background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/yn44.png);}
+#city12{position:absolute;top:641px;left:419px;width:159px;height:162px;background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/sc1.png);}
+#city12.hasLight{background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/sc2.png);}
+#city12.focus{background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/sc3.png);}
+#city12.focus.hasLight{background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/sc4.png);}
+#city13{position:absolute;top:554px;left:555px;width:74px;height:133px;background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/sx1.png);}
+#city13.hasLight{background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/sx2.png);}
+#city13.focus{background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/sx3.png);}
+#city13.focus.hasLight{background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/sx4.png);}
+#city14{position:absolute;top:455px;left:670px;width:55px;height:96px;background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/bj1.png);}
+#city14.hasLight{background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/bj2.png);}
+#city14.focus{z-index:33;background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/bj3.png);}
+#city14.focus.hasLight{z-index:33;background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/bj4.png);}
 
 
-
-
-#city9{
-    position: absolute;
-    top: 0px;
-    left:600px;
-}
-#city10{
-    position: absolute;
-    top: 120px;
-    left:600px;
-}
-#city11{
-    position: absolute;
-    top: 240px;
-    left:600px;
-}
-#city12{
-    position: absolute;
-    top: 360px;
-    left:600px;
-}
-#city13{
-    position: absolute;
-    top: 480px;
-    left:600px;
-}
-#city14{
-    position: absolute;
-    top: 600px;
-    left:600px;
-}

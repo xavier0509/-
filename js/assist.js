@@ -1,3 +1,4 @@
+var btnFrom = null;
 function hasLogin(needQQ) {
     coocaaosapi.hasCoocaaUserLogin(function(message) {
         console.log("haslogin " + message.haslogin);
@@ -301,7 +302,7 @@ function showtoast(data){
     setTimeout("$('#toast').hide()",2000);
 }
 
-function lightCityApi(obj,num,type) {
+function lightCityApi(obj,num,type,parentNode) {
     $.ajax({
         type: "GET",
         async: true,
@@ -313,16 +314,87 @@ function lightCityApi(obj,num,type) {
             console.log("---------------lightCity----result-----------------------------"+JSON.stringify(data));
             if (data.code == 50100) {
                 if(type == "A001"){
-                    console.log("直接点亮城市");
-                    $(obj).html("恭喜点亮");
+                    console.log("点亮城市");
+                    $("#gifPic img").attr("src","http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/gifpic.gif");
+                    $(obj).html("继续点亮");
                     $(obj).addClass("hasLight");
                     $("#city"+num).addClass("hasLight");
+                    $(parentNode).children('.cityWord').html("<span class='word1'><b>成功点亮</b></span><br>"+_powerData[data.data.cityKey].name);
+                    $("#cityCard"+(num)+" .cityImg img").attr("src",_powerData[data.data.cityKey].lightimg);
                     cityNum += 1;
+                    remainNum -= 1;
+                    if(cityNum == 15){
+                        $(".cityBtn").html("抽万元现金");
+                    }else if(remainNum == 0){
+                        $(".cityBtn").html("更多景点卡");
+                    }
                     $("#cityNum").html(cityNum);
+                    $("#remainNum").html(remainNum);
+                    if(!data.data.haveAward){
+                        $(parentNode).children('.cardTitle').html("领到一张景点新语卡");
+                        if(cityNum<3){
+                            $(parentNode).children('.cityBottom').html("<span class='xinyu1'>"+_powerData[data.data.cityKey].title+"</span><span class='xinyu2'>"+_powerData[data.data.cityKey].from+"</span><span class='xinyu3'>累计点亮3张，即有机会领取1000元现金哦！</span> ");
+                        }else if(cityNum>=7){
+                            $(parentNode).children('.cityBottom').html("<span class='xinyu1'>"+_powerData[data.data.cityKey].title+"</span><span class='xinyu2'>"+_powerData[data.data.cityKey].from+"</span><span class='xinyu3'>累计点亮15张，即有机会领取10000元现金哦！</span> ");
+                        }else{
+                            $(parentNode).children('.cityBottom').html("<span class='xinyu1'>"+_powerData[data.data.cityKey].title+"</span><span class='xinyu2'>"+_powerData[data.data.cityKey].from+"</span><span class='xinyu3'>累计点亮7张，即有机会领取5000元现金哦！</span> ");
+                        }
+                    }else{
+                        $(parentNode).children('.cardTitle').html("获得"+data.data.awardRemember.awardName);
+                        $(parentNode).children('.cityBottom').html('<span class="awardimg"><img src="'+data.data.awardRemember.awardUrl+'"></span><span class="awardword">&nbsp;请在活动页面-<br>【我的奖励】中领取</span> ');
+                    }
                     needFresh = true;
+                }else if(type == "A002"){
+                    $("#citybtn").show();
+                    console.log("点亮城市" +data.data.userCityMap.lightNumber);
+                    $("#toptitle").html("<span class='word1'><b>成功点亮</b></span><br>"+_powerData[data.data.cityKey].name);
+                    $("#cityImg img").attr("src",_powerData[data.data.cityKey].lightimg);
+                    if(!data.data.haveAward){
+                        $("#citybtn").html("继续点亮");
+                        btnFrom = "gohome";
+                        $('#wordtitle').html("领到一张景点新语卡");
+                        if(data.data.userCityMap.lightNumber<3){
+                            $("#cityword").html("<span class='xinyu1'>"+_powerData[data.data.cityKey].title+"</span><span class='xinyu2'>"+_powerData[data.data.cityKey].from+"</span><span class='xinyu3'>累计点亮3张，即有机会领取1000元现金哦！</span> ");
+                        }else if(data.data.userCityMap.lightNumber>=7){
+                            $("#cityword").html("<span class='xinyu1'>"+_powerData[data.data.cityKey].title+"</span><span class='xinyu2'>"+_powerData[data.data.cityKey].from+"</span><span class='xinyu3'>累计点亮15张，即有机会领取10000元现金哦！</span> ");
+                        }else{
+                            $("#cityword").html("<span class='xinyu1'>"+_powerData[data.data.cityKey].title+"</span><span class='xinyu2'>"+_powerData[data.data.cityKey].from+"</span><span class='xinyu3'>累计点亮7张，即有机会领取5000元现金哦！</span> ");
+                        }
+                    }else{
+                        $("#citybtn").html("马上领取");
+                        btnFrom = "gogift";
+                        $('#wordtitle').html("获得"+data.data.awardRemember.awardName);
+                        $("#cityword").html('<span class="awardimg"><img src="'+data.data.awardRemember.awardUrl+'"></span><span class="awardword">&nbsp;请在活动页面-<br>【我的奖励】中领取</span> ');
+                    }
+                    $(".pkg:eq(3)").attr("leftTarget","#citybtn");
+                    $(".shop:eq(3)").attr("leftTarget","#citybtn");
+                    sentLog("web_page_show_new",'{"page_name":"nalm_channel_task_page","module_type":"'+comefrom+'","activity_status":"1"}');
                 }
             } else {
+                if(type == "A002"){
+                    if(data.code == 50004){
+                        console.log("没有机会");
+                        $("#citybtn").hide();
+                        $("#goindex").show();
+                        $(".pkg:eq(3)").attr("leftTarget","#goindex");
+                        $(".shop:eq(3)").attr("leftTarget","#goindex");
+                        $("#leftbox").css("background","url('http://sky.fs.skysrt.com/statics/webvip/webapp/national/power/newnochance.png')");
+                        sentLog("web_page_show_new",'{"page_name":"nalm_channel_task_page","module_type":"'+comefrom+'","activity_status":"1"}');
+                    }else if(data.code == 50002){
+                        console.log("未开始");
+                        $("#citybtn").hide();
+                        $("#goindex").hide();
+                        $("#leftbox").css("background","url('http://sky.fs.skysrt.com/statics/webvip/webapp/national/power/wait.png')");
+                        sentLog("web_page_show_new",'{"page_name":"nalm_channel_task_page","module_type":"'+comefrom+'","activity_status":"0"}');
+                    }else if(data.code == 50003){
+                        console.log("已结束");
+                        $("#citybtn").hide();
+                        $("#goindex").hide();
+                        $("#leftbox").css("background","url('http://sky.fs.skysrt.com/statics/webvip/webapp/national/power/end.png')");
+                        sentLog("web_page_show_new",'{"page_name":"nalm_channel_task_page","module_type":"'+comefrom+'","activity_status":"2"}');
+                    }
 
+                }
             }
         },
         error: function(error) {

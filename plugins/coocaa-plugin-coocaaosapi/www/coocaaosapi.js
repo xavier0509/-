@@ -311,13 +311,11 @@ cordova.define("coocaaosapi", function(require, exports, module) {
     /*
      *启动影视会员中心
      */
-    CoocaaOSApi.prototype.startMovieMemberCenter = function(urltype, success, error) {
-        argscheck.checkArgs('sff', 'CoocaaOSApi.startMovieMemberCenter', arguments);
+    CoocaaOSApi.prototype.startMovieMemberCenter = function(businesstype,sourceid, success, error) {
+        argscheck.checkArgs('ssff', 'CoocaaOSApi.startMovieMemberCenter', arguments);
         startapp.start([
             ["action", "coocaa.intent.vip.center"],
-            [{
-                'business_type': urltype
-            }]
+            [{'business_type': businesstype},{'source_id':sourceid}]
         ], success, error);
     }
     /*
@@ -998,7 +996,7 @@ cordova.define("coocaaosapi", function(require, exports, module) {
         console.log("启动新版浏览器")
         argscheck.checkArgs('sff', 'CoocaaOSApi.startNewBrowser', arguments);
         startapp.start([
-            ["action", "coocaa.intent.action.browser.no_route", "com.coocaa.app_browser"],
+            ["action", "coocaa.intent.action.browser.no_trans", "com.coocaa.app_browser"],
             [{ "url": url }]
         ], success, error);
     }
@@ -1135,6 +1133,14 @@ cordova.define("coocaaosapi", function(require, exports, module) {
             ["action", actionName],
             [{ 'jumpToPage': tabid }]
         ], success, error);
+    }
+
+    /*
+     *启动主页专题
+     */
+    CoocaaOSApi.prototype.startHomeCommonList = function(id,success,error){
+        argscheck.checkArgs('sff','CoocaaOSApi.startHomeCommonList',arguments);
+        startapp.start([["action", "coocaa.intent.action.HOME_COMMON_LIST"],[{'id':id}]], success,error);
     }
 
     module.exports = new CoocaaOSApi();

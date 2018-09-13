@@ -13,7 +13,8 @@ var app = {
     handleresume: function() {
         console.log("===========================resume==========");
         if (needFresh) {
-            showPage();
+            needFresh = false;
+            showPage(false,true);
         } else {}
     },
     handlepause: function() {
@@ -23,7 +24,27 @@ var app = {
 
     },
     handleBackButtonDown: function() {
-        exit()
+        if($("#blackbg").css("display") == "block"){
+
+        }else if($("#moreChance").css("display") == "block"){
+            if(exitWeb){
+                exitWeb = false;
+                exit();
+            }else{
+                $("#moreChance").hide();
+                $("#mainMap").show();
+                needRememberFocus = true;
+                rememberFocus = "#morecard";
+                showPage(false,false);
+            }
+        }else if($("#strategyPage").css("display") == "block"){
+            $("#strategyPage").hide();
+            $("#mainMap").show();
+            map = new coocaakeymap($(".coocaabtn"),$("#strategy"),"btnFocus", function() {}, function(val) {}, function(obj) {});
+        }else{
+            exit()
+        }
+
     },
 
     onDeviceReady: function() {
@@ -46,20 +67,20 @@ var app = {
         coocaaosapi.getDeviceInfo(function(message) {
             deviceInfo = message;
             console.log("deviceinfo=============="+JSON.stringify(deviceInfo))
-            // macAddress = message.mac;
-            // TVmodel = message.model;
-            // TVchip = message.chip;
-            // activityId = message.activeid;
-            // if (message.emmcid ==""||message.emmcid==null) {
-            //     emmcId = "";
-            // } else{
-            //     emmcId = message.emmcid;
-            // }
-            macAddress = "333";
-            TVmodel = "333";
-            TVchip = "333";
-            activityId = "333";
-            emmcId = "333";
+            macAddress = message.mac;
+            TVmodel = message.model;
+            TVchip = message.chip;
+            activityId = message.activeid;
+            if (message.emmcid ==""||message.emmcid==null) {
+                emmcId = "";
+            } else{
+                emmcId = message.emmcid;
+            }
+            // macAddress = "123456";
+            // TVmodel = "123456";
+            // TVchip = "123456";
+            // activityId = "9876543210";
+            // emmcId = "123456";
             // if (deviceInfo.version < '6') {
             //     android.getPropertiesValue("persist.service.homepage.pkg", function(data) {
             //         var val = data.propertiesValue;
@@ -70,9 +91,34 @@ var app = {
             //         }
             //     });
             // }
-            showPage();
-            listenUser();
-            listenPay();
+            var a ={MAC:macAddress,cChip:TVchip,cModel:TVmodel,cEmmcCID:emmcId,cUDID:activityId,cSize:message.panel,cChannel:"coocaa"};
+            console.log("data====="+JSON.stringify(a))
+            $.ajax({
+                type: "get",
+                async: true,
+                url: adressIp + "/light/active/tv/source",
+                data: {MAC:macAddress,cChip:TVchip,cModel:TVmodel,cEmmcCID:emmcId,cUDID:activityId,cSize:message.panel,cChannel:"coocaa",aSdk:message.androidsdk,cTcVersion:message.version.replace(/\.*/g,""),cBrand:message.brand},
+                dataType: "jsonp",
+                jsonp: "callback",
+                // timeout: 20000,
+                success: function(data) {
+                    console.log("返回状态：" + JSON.stringify(data));
+                    if(data.code == 0){
+                        movieSource = data.data.source;
+                        if(movieSource == "tencent"){
+                            needQQ = true;
+                        }
+                    }
+                    hasLogin(needQQ);
+                    showPage(true,false);
+                    listenUser();
+                    listenPay();
+                    listenCommon();
+                },
+                error: function(error) {
+                    console.log("-----------访问失败---------"+JSON.stringify(error));
+                }
+            });
         }, function(error) { console.log("get deviceinfo error") })
     },
     triggleButton: function() {
@@ -92,6 +138,11 @@ function initMap(setFocus) {
     initBtn();
     map = new coocaakeymap($(".coocaabtn"), $(setFocus), "btnFocus", function() {}, function(val) {}, function(obj) {});
     $(setFocus).trigger("itemFocus");
+    if(needgotoshop){
+        needgotoshop = false;
+        $("#morecard").trigger("itemClick");
+    }
+
 }
 function initBtn() {
     $(".city").unbind("itemFocus").bind("itemFocus",function(){
@@ -106,7 +157,7 @@ function initBtn() {
             needRememberFocus = true;
             rememberFocus = ".city:eq("+_thisIndex+")";
             needFresh = false;
-            showPage();
+            showPage(false,false);
         }
     })
 
@@ -119,17 +170,24 @@ function initBtn() {
             needRememberFocus = true;
             rememberFocus = "#"+$(this).attr('id');
             needFresh = false;
-            showPage();
+            showPage(false,false);
         }
     })
 
     $(".cityBtn").unbind("itemClick").bind("itemClick",function(){
+        if(gameStatus == "wait"){
+            return;
+        }
         var _thisIndex = $(".cityBtn").index($(this));
         var thisObj = this;
-        if($(this).attr("class").indexOf("hasLight") == -1){
-            console.log("未点亮，即将点亮");
-            //是否有剩余点亮次数
-            if(remainNum > 0){
+        if(remainNum > 0){
+            if($(this).attr("class").indexOf("hasLight") == -1){
+                var landstatus = 0;
+                if(loginstatus == "true"){landstatus = 1;}
+                var activitystatus = 1;
+                if(gameStatus == "wait"){activitystatus = 0}
+                sentLog("nalm_view_card_page_button_onclick",'{"button_name":"1","activity_status":"'+activitystatus+'","landing_status":"'+landstatus+'"}');
+                console.log("未点亮，即将点亮");
                 console.log("用户点击，记录需要点亮的城市卡");
                 $.ajax({
                     type: "GET",
@@ -142,10 +200,15 @@ function initBtn() {
                         console.log("---------------rememberCity----result-----------------------------"+JSON.stringify(data));
                         if (data.code == 50100) {
                             //当前是否第一次游戏---是，点亮发放礼品接口
-                            if(totalNum != 0){
-                                lightCityApi(thisObj,_thisIndex,"A001");
+                            if(totalNum == 0){
+                                lightCityApi(thisObj,_thisIndex,"A001",thisObj.parentNode);
                             }else{
                                 console.log("有机会，做任务即可点亮");
+                                _listenObj = thisObj;
+                                _listenNum = _thisIndex;
+                                _listenType = "A001";
+                                _listenParent = thisObj.parentNode;
+                                startMission(thisObj);
                             }
                         } else {}
                     },
@@ -154,68 +217,249 @@ function initBtn() {
                     }
                 });
             }else{
-                console.log("没有机会，需要做任务!");
-                $("#mainMap").hide();
-                $("#moreChance").show();
-                hasLogin(true);
-                map = new coocaakeymap($(".coocaabtn2"),null,"btnFocus", function() {}, function(val) {}, function(obj) {});
+                console.log("已经点亮"+forNum);
+                if(forNum == 15){
+                    needFresh = false;
+                    // $("#gotoLottery").trigger("itemClick");
+                    needFresh = true;
+                    needRememberFocus = true;
+                    rememberFocus = "#gotoLottery";
+                    coocaaosapi.startNewBrowser("http://beta.webapp.skysrt.com/lxw/gq/index.html?part=draw&source=main",function(){},function(){});
+                    var landstatus = 0;
+                    if(loginstatus == "true"){landstatus = 1;}
+                    var activitystatus = 1;
+                    if(gameStatus == "wait"){activitystatus = 0}
+                    sentLog("nalm_view_card_page_button_onclick",'{"button_name":"4","activity_status":"'+activitystatus+'","landing_status":"'+landstatus+'"}');
+                }else{
+                    var needGotoNextCity = _thisIndex;
+                    for(var i=0;i<15;i++){
+                        if($("#city"+i).attr("class").indexOf("hasLight") == -1){
+                            needGotoNextCity = i;
+                            break;
+                        }else{}
+                    }
+                    initMap(".city:eq("+needGotoNextCity+")");
+                    var landstatus = 0;
+                    if(loginstatus == "true"){landstatus = 1;}
+                    var activitystatus = 1;
+                    if(gameStatus == "wait"){activitystatus = 0}
+                    sentLog("nalm_view_card_page_button_onclick",'{"button_name":"2","activity_status":"'+activitystatus+'","landing_status":"'+landstatus+'"}');
+                }
             }
-
         }else{
-            console.log("已经点亮");
-            var needGotoNextCity = _thisIndex;
-            for(var i=0;i<15;i++){
-                if($("#city"+i).attr("class").indexOf("hasLight") == -1){
-                    needGotoNextCity = i;
-                    break;
-                }else{}
+            console.log("没有机会，需要购买!");
+            // $("#morecard").trigger("itemClick");
+            $("#mainMap").hide();
+            $("#moreChance").show();
+            if(needQQ){
+                for(var i=1;i<=4;i++){
+                    var name = "pkg"+i;
+                    $(".moviePkg:eq("+(i-1)+") img").attr("src",_tencentPkginfo[name].img);
+                    $(".moviePkg:eq("+(i-1)+")").attr("productid",_tencentPkginfo[name].product_id);
+                    $(".moviePkg:eq("+(i-1)+")").attr("price",_tencentPkginfo[name].price);
+                    $(".moviePkg:eq("+(i-1)+")").attr("type",_tencentPkginfo[name].type);
+                    $(".moviePkg:eq("+(i-1)+")").attr("name",_tencentPkginfo[name].name);
+                }
+            }else{
+                for(var i=1;i<=4;i++){
+                    var name = "pkg"+i;
+                    $(".moviePkg:eq("+(i-1)+") img").attr("src",_yinhePkginfo[name].img);
+                    $(".moviePkg:eq("+(i-1)+")").attr("productid",_yinhePkginfo[name].product_id);
+                    $(".moviePkg:eq("+(i-1)+")").attr("price",_yinhePkginfo[name].price);
+                    $(".moviePkg:eq("+(i-1)+")").attr("type",_yinhePkginfo[name].type);
+                    $(".moviePkg:eq("+(i-1)+")").attr("name",_yinhePkginfo[name].name);
+                }
             }
-            initMap(".city:eq("+needGotoNextCity+")")
+            map = new coocaakeymap($(".coocaabtn2"),null,"btnFocus", function() {}, function(val) {}, function(obj) {});
+            var landstatus = 0;
+            if(loginstatus == "true"){landstatus = 1;}
+            var activitystatus = 1;
+            if(gameStatus == "wait"){activitystatus = 0}
+            sentLog("nalm_view_card_page_button_onclick",'{"button_name":"3","activity_status":"'+activitystatus+'","landing_status":"'+landstatus+'"}');
+            sentLog("web_page_show_new",'{"page_name":"nalm_buy_for_view_card_page","activity_status":"'+activitystatus+'","landing_status":"'+landstatus+'"}');
         }
+
     })
 
     $("#strategy").unbind("itemClick").bind("itemClick",function(){
        $("#mainMap").hide();
        $("#strategyPage").show();
-        map = new coocaakeymap($(".coocaabtn3"),null,"btnFocus", function() {}, function(val) {}, function(obj) {});
+        var landstatus = 0;
+        if(loginstatus == "true"){landstatus = 1;}
+        var activitystatus = 1;
+        if(gameStatus == "wait"){activitystatus = 0}
+        sentLog("nalm_main_page_button_onclick",'{"button_name":"money_strategyl","activity_status":"'+activitystatus+'","landing_status":"'+landstatus+'"}');
+        sentLog("web_page_show_new",'{"page_name":"nalm_money_strategy_page","activity_status":"'+activitystatus+'","landing_status":"'+landstatus+'"}');
+        map = new coocaakeymap($(".coocaabtn3"),$("#tips"),"btnFocus", function() {}, function(val) {}, function(obj) {});
+        $("#tips").trigger("itemFocus");
+    })
+    var tab = null;
+    $("#tips").unbind("itemFocus").bind("itemFocus",function(){
+        $("#rulebox").hide();
+        $("#tipsbox").show();
+        tab = "#tips";
+        $("#tips").addClass("focus");
+        $("#rule").removeClass("focus");
+        map = new coocaakeymap($(".coocaabtn3"),$("#tips"),"btnFocus", function() {}, function(val) {}, function(obj) {});
+    })
+
+    $("#rule").unbind("itemFocus").bind("itemFocus",function(){
+        $("#rulebox").show();
+        $("#tipsbox").hide();
+        tab = "#rule";
+        $("#rule").addClass("focus");
+        $("#tips").removeClass("focus");
+        map = new coocaakeymap($(".coocaabtn3"),$("#rule"),"btnFocus", function() {}, function(val) {}, function(obj) {});
+    })
+
+    $(".wordbox").unbind("itemFocus").bind("itemFocus",function(){
+       $(".wordbox").attr("upTarget",tab);
+       $(".wordbox").attr("rightTarget","#rule");
+       $(".wordbox").attr("leftTarget","#tips");
+    })
+
+    $("#gotoLottery").unbind("itemClick").bind("itemClick",function(){
+        needFresh = true;
+        needRememberFocus = true;
+        rememberFocus = "#gotoLottery";
+        var landstatus = 0;
+        if(loginstatus == "true"){landstatus = 1;}
+        var activitystatus = 1;
+        if(gameStatus == "wait"){activitystatus = 0}
+        sentLog("nalm_main_page_button_onclick",'{"button_name":"draw_lottery","activity_status":"'+activitystatus+'","landing_status":"'+landstatus+'"}');
+       coocaaosapi.startNewBrowser("http://beta.webapp.skysrt.com/lxw/gq/index.html?part=draw&source=main",function(){},function(){});
+    })
+    $("#myGift,#myGift2").unbind("itemClick").bind("itemClick",function(){
+        needFresh = true;
+        needRememberFocus = true;
+        rememberFocus = "#myGift";
+        var landstatus = 0;
+        if(loginstatus == "true"){landstatus = 1;}
+        var activitystatus = 1;
+        if(gameStatus == "wait"){activitystatus = 0}
+        sentLog("nalm_main_page_button_onclick",'{"button_name":"my_award","activity_status":"'+activitystatus+'","landing_status":"'+landstatus+'"}');
+       coocaaosapi.startNewBrowser("http://beta.webapp.skysrt.com/lxw/gq/index.html?part=award&source=main",function(){},function(){});
     })
 
     $("#morecard").unbind("itemClick").bind("itemClick",function(){
        $("#mainMap").hide();
        $("#moreChance").show();
-       hasLogin(true);
+        var landstatus = 0;
+        if(loginstatus == "true"){landstatus = 1;}
+        var activitystatus = 1;
+        if(gameStatus == "wait"){activitystatus = 0}
+        if(getUrlParam("goto")!="shop"){
+            sentLog("nalm_main_page_button_onclick",'{"button_name":"more_chance","activity_status":"'+activitystatus+'","landing_status":"'+landstatus+'"}');
+        }
+        sentLog("web_page_show_new",'{"page_name":"nalm_buy_for_view_card_page","activity_status":"'+activitystatus+'","landing_status":"'+landstatus+'"}');
+       if(needQQ){
+            for(var i=1;i<=4;i++){
+                var name = "pkg"+i;
+                $(".moviePkg:eq("+(i-1)+") img").attr("src",_tencentPkginfo[name].img);
+                $(".moviePkg:eq("+(i-1)+")").attr("productid",_tencentPkginfo[name].product_id);
+                $(".moviePkg:eq("+(i-1)+")").attr("price",_tencentPkginfo[name].price);
+                $(".moviePkg:eq("+(i-1)+")").attr("type",_tencentPkginfo[name].type);
+                $(".moviePkg:eq("+(i-1)+")").attr("name",_tencentPkginfo[name].name);
+            }
+       }else{
+           for(var i=1;i<=4;i++){
+               var name = "pkg"+i;
+               $(".moviePkg:eq("+(i-1)+") img").attr("src",_yinhePkginfo[name].img);
+               $(".moviePkg:eq("+(i-1)+")").attr("productid",_yinhePkginfo[name].product_id);
+               $(".moviePkg:eq("+(i-1)+")").attr("price",_yinhePkginfo[name].price);
+               $(".moviePkg:eq("+(i-1)+")").attr("type",_yinhePkginfo[name].type);
+               $(".moviePkg:eq("+(i-1)+")").attr("name",_yinhePkginfo[name].name);
+           }
+       }
         map = new coocaakeymap($(".coocaabtn2"),null,"btnFocus", function() {}, function(val) {}, function(obj) {});
     })
 
     $(".moviePkg").unbind("itemClick").bind("itemClick",function(){
-        console.log("loginStatus================="+loginstatus)
+        console.log("loginStatus================="+loginstatus);
+        var pageid = $(this).attr("productid");
+        var pagename = $(this).attr("name");
+        var pagetype = $(this).attr("type");
+        sentLog("nalm_buy_for_view_card_page_content_onclick",'{"module_type":"'+pagetype+'","content_id":"'+pageid+'","content_name":"'+pagename+'"}');
         if(loginstatus == "true"){
-            order();
+            var pageid = $(this).attr("productid");
+            var pagename = $(this).attr("name");
+            var pagetype = $(this).attr("type");
+            sentLog("nalm_buy_for_view_card_pay_arouse",'{"module_type":"'+pagetype+'","content_id":"'+pageid+'","content_name":"'+pagename+'"}');
+            order($(this).attr("productid"),$(this).attr("price"));
         }else{
-            startLogin(true);
+            startLogin(needQQ);
+            sentLog("nalm_account_landing_page_exposure",'{"page_name":"nalm_buy_for_view_card_page"}');
         }
+    })
+
+    $(".qmallPkg").unbind("itemClick").bind("itemClick",function () {
+        var pageid = $(this).attr("pageid");
+        var pagename = $(this).attr("name");
+        var pagetype = $(this).attr("type");
+        sentLog("nalm_buy_for_view_card_page_content_onclick",'{"module_type":"'+pagetype+'","content_id":"'+pageid+'","content_name":"'+pagename+'"}');
+        coocaaosapi.startAppShopDetail(pageid,function(){},function(){});
+    })
+    $("#toastbtn1").unbind("itemClick").bind("itemClick",function () {
+        $("#blackbg").hide();
+        $("#toast2").hide();
+        needFresh = true;
+        needRememberFocus = true;
+        rememberFocus = "#gotoLottery";
+        coocaaosapi.startNewBrowser("http://beta.webapp.skysrt.com/lxw/gq/index.html?part=draw&source=main",function(){},function(){});
+    })
+
+    $("#toastbtn2").unbind("itemClick").bind("itemClick",function () {
+        $("#blackbg").hide();
+        $("#toast2").hide();
+        initMap("#city"+rememberMapFocus);
+    })
+
+    $("#moreMovie").unbind("itemClick").bind("itemClick",function () {
+        var landstatus = 0;
+        if(loginstatus == "true"){landstatus = 1;}
+        sentLog("nalm_buy_for_view_card_page_button_onclick",'{"button_name":"0","landing_status":"'+landstatus+'"}');
+        if(needQQ){
+            coocaaosapi.startMovieMemberCenter("0","5",function(){exit()},function(){})
+        }else{
+            coocaaosapi.startMovieMemberCenter("0","1",function(){exit()},function(){})
+        }
+    })
+
+    $("#moreEdu").unbind("itemClick").bind("itemClick",function () {
+        var landstatus = 0;
+        if(loginstatus == "true"){landstatus = 1;}
+        sentLog("nalm_buy_for_view_card_page_button_onclick",'{"button_name":"1","landing_status":"'+landstatus+'"}');
+        coocaaosapi.startMovieMemberCenter("1","",function(){exit()},function(){})
+    })
+
+    $("#moreMall").unbind("itemClick").bind("itemClick",function () {
+        var landstatus = 0;
+        if(loginstatus == "true"){landstatus = 1;}
+        sentLog("nalm_buy_for_view_card_page_button_onclick",'{"button_name":"2","landing_status":"'+landstatus+'"}');
+        coocaaosapi.startHomeCommonList("10168",function(){exit()},function(){})
     })
 }
 
-function order() {
+function order(productid,price) {
+    console.log("-------------"+productid+"============"+price);
     var data = JSON.stringify({
-        user_id: "2.378b41b74eb048f795637b0d7d0d9aa6", //accesstoken
+        user_id: access_token, //accesstoken
         user_flag: 1,
-        third_user_id: "o-G_Ut1rSA99Mx4lV0cB6W3yP4aE",
-        product_id: "1", //需改
+        third_user_id: qqtoken,
+        product_id: productid, //需改
         movie_id: "",
         node_type: "res",
         client_type: 1,
-        title: "买年卡套餐送背包",
-        price: 1, //需改
+        title: "国庆套餐包",
+        price: price, //需改
         count: 1,
-        discount_price: 1, //需改
+        discount_price: "", //需改
         coupon_codes: "",
         auth_type: 0,
-        mac: "bcec23afef7f",
-        chip: "5S07",
-        model: "A2",
-        extend_info: { "login_type": 2, "wx_vu_id": "123456789" },
+        mac: macAddress,
+        chip: TVchip,
+        model: TVmodel,
+        extend_info: { "login_type": login_type, "wx_vu_id": vuserid },
     })
     var data1 = encodeURIComponent(data);
     console.log(data);
@@ -231,9 +475,9 @@ function order() {
             if (data.code == 0) {
                 orderId = data.data.orderId;
                 console.log("订单编号1：" + orderId);
-                coocaaosapi.purchaseOrder2(data.data.appcode, data.data.orderId, data.data.orderTitle, data.data.back_url, data.data.total_pay_fee, "虚拟", "com.webviewsdk.action.pay", "pay", "2.378b41b74eb048f795637b0d7d0d9aa6", "13333333333",  function(success)  {
-                    console.log("33333333333322" + success);
-                },             function(error)  {                 console.log(error);             });
+                coocaaosapi.purchaseOrder2(data.data.appcode, data.data.orderId, data.data.orderTitle, data.data.back_url, data.data.total_pay_fee, "虚拟", "com.webviewsdk.action.pay", "pay", "2.378b41b74eb048f795637b0d7d0d9aa6", "13333333333",
+                    function(success){console.log("----------startpaysuccess------------" + success);},
+                    function(error){console.log(error);});
             } else {
                 console.log("-----------异常---------" + data.msg);
             }
@@ -249,7 +493,7 @@ function listenUser() {
     coocaaosapi.addUserChanggedListener(function(message) {
         console.log("账户状态变化")
         //刷新前的逻辑判断
-        hasLogin(false);
+        hasLogin(needQQ);
     });
 }
 
@@ -258,99 +502,216 @@ function listenPay() {
     coocaaosapi.addPurchaseOrderListener(function(message) {
         console.log("xjr----------->startpurcharse message  支付结果 " + JSON.stringify(message));
         if (message.presultstatus == 0) {
-            if (refreshPayResult == true) {
-                return;
-            }
-            sentLog("esg_buy_vip_result", '{"buy_result":"0","age_type":"' + log_buyvip_age + '","product_type":"' + log_buyvip_type + '","order_id":"' + orderId + '"}');
-            $(".normalWindow").hide();
-            $("#missionWindow").hide();
-            $("#award").hide();
-            $("#mission").hide();
-            $(".vipright").hide();
-            $(".buypkg").hide();
-            $(".receiveResult").hide();
-            map = new coocaakeymap($(".coocaabtn"), $(".level:eq(" + rememberMapFocus + ")"), "btnFocus", function() {}, function(val) {}, function(obj) {});
-        } else {
-            sentLog("esg_buy_vip_result", '{"buy_result":"1","age_type":"' + log_buyvip_age + '","product_type":"' + log_buyvip_type + '","order_id":"' + orderId + '"}');
+
         }
     });
 }
 
-function initGameStatus() {
-    console.log("has Light city=="+lightCity)
-    if(nowTime < beginTime){
-        $("#gotoLottery").hide();
-        $("#morecard").hide();
-        $("#myGift").hide();
-        $("#strategy").show();
-    }else if(nowTime > endTime){
-        $("#gotoLottery").hide();
-        $("#morecard").hide();
-        $("#myGift").show();
-        $("#strategy").hide();
-    }else{
-        $("#gotoLottery").show();
-        $("#morecard").show();
-        $("#myGift").show();
-        $("#strategy").show();
-        $(".cityBtn").attr("rightTarget","#gotoLottery")
-    }
-    for(var i=0; i<15; i++){
-        $("#city"+i).removeClass("hasLight");
-        if(lightCity.indexOf("city"+i) != -1){
-            console.log("---------"+i);
-            $("#city"+i).addClass("hasLight");
-            $("#cityCard"+i+" .cityBtn").addClass("hasLight");
-            $("#cityCard"+i+" .cityBtn").html("继续点亮");
-        }else{
-            if(needRememberFocus){
-                setFocusFirst = true;
-                needRememberFocus = false;
-                initMap(rememberFocus);
-            }else{
-                if(!setFocusFirst){
-                    setFocusFirst = true;
-                    initMap(".city:eq("+i+")");
-                }else{
+//通用播放器监听
+function listenCommon() {
+    coocaaosapi.addCommonListener(function(message) {
+        console.log("addCommonListener==" + JSON.stringify(message));
+        if(message.web_player_event == "on_complete") {
+            lightCityApi(_listenObj,_listenNum,_listenType,_listenParent);
+        }
+    })
+}
 
+function startMission(obj) {
+    if($(obj).attr("missionType") == "page"){
+        coocaaosapi.startHomeCommonList($(obj).attr("missionId"),function(msg){exit()},function(error){});
+    }else  if($(obj).attr("missionType") == "video"){
+        coocaaosapi.startCommonWebview("", $(obj).attr("missionUrl"), "看视频点亮城市卡", "", "", "", "视频广告", "", function(message) {
+            console.log(message);
+        }, function(error) {
+            console.log("commonTask----error")
+        });
+    }
+}
+
+function initGameStatus() {
+    console.log("has Light city=="+lightCity);
+    $("#strategy").attr("upTarget","");
+    $("#myGift").attr("upTarget","");
+    $("#myGift").attr("upTarget","");
+    if(gameStatus == "end"){
+        $("#mainMap").hide();
+        $("#endPage").show();
+        $("#myGift2").show();
+        initBtn();
+        map = new coocaakeymap($("#myGift2"), $("#myGift2"), "btnFocus", function() {}, function(val) {}, function(obj) {});
+    }else{
+        $("#mainMap").show();
+        $("#lefttips").show();
+        $("#endPage").hide();
+        for(var i=0; i<15; i++){
+            $("#city"+i).removeClass("hasLight");
+            $("#cityCard"+i+" .cityBtn").html("我要点亮");
+            $("#cityCard"+i+" .cityBtn").attr("leftTarget","#city"+i);
+            $("#cityCard"+i+" .cityWord").html("<span class='word1'><b>欢迎来到</b></span><br>"+_powerData["city"+(i+1)].name);
+            if(lightCity.indexOf("city"+i) != -1){
+                forNum += 1 ;
+                console.log("---------"+i);
+                $("#city"+i).addClass("hasLight");
+                $("#cityCard"+i+" .cityBtn").addClass("hasLight");
+                $("#cityCard"+i+" .cityBtn").html("继续点亮");
+                $("#cityCard"+(i)+" .cityImg img").attr("src",_powerData["city"+(i+1)].lightimg);
+                if(cityNum<3){
+                    $("#cityCard"+i+" .cardTitle").html("累积点亮3张");
+                    $("#cityCard"+i+" .cityBottom").html("<span class='lightmoney'>即有机会领取1000元现金哦！</span>");
+                }else if(cityNum>=7){
+                    $("#cityCard"+i+" .cardTitle").html("累积点亮15张");
+                    $("#cityCard"+i+" .cityBottom").html("<span class='lightmoney'>即有机会领取10000元现金哦！</span>");
+                }else{
+                    $("#cityCard"+i+" .cardTitle").html("累积点亮7张");
+                    $("#cityCard"+i+" .cityBottom").html("<span class='lightmoney'>即有机会领取5000元现金哦！</span>");
+                }
+
+            }else{
+                $("#cityCard"+(i)+" .cityImg img").attr("src",_powerData["city"+(i+1)].img);
+                if(needRememberFocus){
+                    setFocusFirst = true;
+                    needRememberFocus = false;
+                    initMap(rememberFocus);
+                }else{
+                    if(!setFocusFirst){
+                        setFocusFirst = true;
+                        initMap(".city:eq("+i+")");
+                    }else{
+
+                    }
                 }
             }
+        }
+        if(remainNum == 0){
+            $(".cityBtn").html("更多景点卡");
+            $(".cardTitle").html("今日点亮机会已用完");
+            $(".cityBottom").html("<span class='nochancename'>快获得更多机会，冲刺万元现金大奖！</span>");
+        }
+        if(forNum == 15){
+            $(".cardTitle").html("即刻抽取万元现金");
+            $(".cityBottom").html("<span class='finishlightname'>获得赢取10000元现金的机会！</span>");
+            $(".cityBtn").html("抽万元现金");
+            initMap("#city0");
+            initMap("#gotoLottery");
+        }
+        if(totalNum == 0){
+            $(".cityBtn").html("我要点亮");
+            $(".cardTitle").html("点亮景点可领现金/实物奖励");
+            $(".cityBottom").html("<span class='immediatelyname'>累计点亮3张还有机会赢1000元大奖！</span>");
+        }
+        if(needShowWindow){
+            needShowWindow = false;
+            $("#blackbg").show();
+            $("#toast2").show();
+            $("#nowhave").html(cityNum);
+            map = new coocaakeymap($(".toastbtn"),null,"btnFocus", function() {}, function(val) {}, function(obj) {});
+        }
+        if(gameStatus == "wait"){
+            $("#gotoLottery").hide();
+            $("#morecard").hide();
+            $("#myGift").hide();
+            $("#cityNum").hide();
+            $("#remainNum").hide();
+            $("#strategy").show();
+            $("#strategy").attr("upTarget","#strategy");
+            $(".cityBtn").html("29日0点开启");
+            $(".cardTitle").html("点亮景点可领现金/实物奖励");
+            $(".cityBottom").html("<span class='finishlightname'>活动即将开启，敬请期待~</span>");
+            $("#mainMap").css("background","url('http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/waitbg.jpg')")
+        }else{
+            $("#gotoLottery").show();
+            $("#morecard").show();
+            $("#myGift").show();
+            $("#strategy").show();
+            $(".cityBtn").attr("rightTarget","#gotoLottery");
         }
     }
 }
 
 //页面初始化或刷新
-function showPage() {
+function showPage(first,resume) {
+    if(first){
+        if(getUrlParam("goto")=="shop"){
+            needgotoshop = true;
+            exitWeb = true;
+        }
+    }else if(resume){
+        initType = "all";
+    }else{
+        initType = "no";
+    }
     setFocusFirst = false;
+    forNum = 0;
     lightCity = [];
-    console.log("---"+macAddress+"------"+TVchip+"-----"+TVmodel+"------"+emmcId+"--------"+activityId);
+    $(".cityBtn").removeClass("hasLight");
+    console.log("---"+macAddress+"------"+TVchip+"-----"+TVmodel+"------"+emmcId+"--------"+activityId + "---------"+initType);
     $.ajax({
         type: "GET",
         async: true,
         url: adressIp + "/light/active/"+actionId+"/init",
-        data: {id:actionId, MAC:macAddress,cChip:TVchip,cModel:TVmodel,cEmmcCID:emmcId,cUDID:activityId},
+        data: {id:actionId, MAC:macAddress,cChip:TVchip,cModel:TVmodel,cEmmcCID:emmcId,cUDID:activityId,initType:initType},
+        // data: {id:137, MAC:111,cChip:111,cModel:111,cEmmcCID:111,cUDID:12345678444,initType:"all"},
         dataType: "jsonp",
         jsonp: "callback",
         success: function(data) {
             console.log("------------init----result-------------"+JSON.stringify(data));
             if (data.code == 50100) {
-                cityNum = data.data.userCity.allCityNumber;
+                cityNum = data.data.userLightCity.lightNumber;
                 totalNum = data.data.userChance.allOperation;
                 remainNum = data.data.userChance.overNumber;
                 nowTime = data.data.sysTime;
                 beginTime = data.data.active.activeBeginTime;
                 endTime = data.data.active.activeEndTime;
-                for(var i=1;i<=15;i++){
-                    var checkCity = "city"+i;
-                    if(data.data.userCity.userCity[checkCity]!=undefined){
-                        lightCity.push("city"+(i-1));
+                giveCard = data.data.lightByDay;
+                if(giveCard != undefined){
+                    if(giveCard.lightNumber > 0){
+                        needShowWindow = true;
                     }
                 }
-                initGameStatus();
-                $("#cityNum").html(cityNum);
-            } else {
-
+                if(nowTime > beginTime && nowTime < endTime){
+                    gameStatus = "start";
+                    if(first && getUrlParam("goto")!="shop"){
+                        var landstatus = 0;
+                        if(loginstatus == "true"){landstatus = 1;}
+                        sentLog("web_page_show_new",'{"page_name":"nalm_main_activity_page","activity_status":"1","landing_status":"'+landstatus+'"}')
+                    }
+                }
+                for(var i=1;i<=15;i++){
+                    var checkCity = "city"+i;
+                    if(data.data.userLightCity.cityInfo[checkCity]!=undefined){
+                        lightCity.push("city"+(i-1));
+                    }
+                    $("#cityCard"+(i-1)+" .cityBtn").attr("missionType",data.data.cityTask[checkCity].type);
+                    $("#cityCard"+(i-1)+" .cityBtn").attr("missionId",data.data.cityTask[checkCity].id);
+                    $("#cityCard"+(i-1)+" .cityBtn").attr("missionUrl",data.data.cityTask[checkCity].url);
+                    $("#cityCard"+(i-1)+" .cityBottom").html("<span class='missionName'>"+data.data.cityTask[checkCity].name+"</span>");
+                    if(data.data.cityTask[checkCity].type == "video"){
+                        $("#cityCard"+(i-1)+" .cardTitle").html("点亮景点可领现金/实物奖励");
+                    }else{
+                        $("#cityCard"+(i-1)+" .cardTitle").html("点亮景点可领现金/实物奖励");
+                    }
+                }
+            } else if(data.code == 50002){
+                gameStatus = "wait";
+                if(first && getUrlParam("goto")!="shop"){
+                    var landstatus = 0;
+                    if(loginstatus == "true"){landstatus = 1;}
+                    sentLog("web_page_show_new",'{"page_name":"nalm_main_activity_page","activity_status":"0","landing_status":"'+landstatus+'"}')
+                }
+            // }else if(data.code == 50003){
+            }else{
+                gameStatus = "end";
+                if(first && getUrlParam("goto")!="shop"){
+                    var landstatus = 0;
+                    if(loginstatus == "true"){landstatus = 1;}
+                    sentLog("web_page_show_new",'{"page_name":"nalm_main_activity_page","activity_status":"2","landing_status":"'+landstatus+'"}')
+                }
             }
+
+            initGameStatus();
+            $("#cityNum").html(cityNum);
+            $("#remainNum").html(remainNum);
         },
         error: function(error) {
             console.log("--------访问失败" + JSON.stringify(error));

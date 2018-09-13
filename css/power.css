@@ -1,0 +1,218 @@
+@charset "utf-8";
+body {
+    width: 1920px;
+    height: 1080px;
+    overflow: hidden;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    z-index: 0;
+}
+
+#deviceready{
+    width: 1920px;
+    height: 1080px;
+    overflow: hidden;
+    position: absolute;
+    top:0;
+    left:0;
+    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/power/moviebg.jpg");
+}
+#goindex{
+    position: fixed;
+    left: 316px;
+    top:858px;
+    width: 284px;
+    height: 99px;
+    display: none;
+    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/power/morecard.png");
+}
+#goindex.btnFocus{
+    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/power/morecardfocus.png");
+}
+#leftbox{
+    width: 687px;
+    height:746px;
+    position: absolute;
+    left: 114px;
+    top:238px;
+    /*display: none;*/
+    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/power/citycardnew.png");
+}
+#citybtn{
+    width: 229px;
+    height:81px;
+    position: absolute;
+    top:625px;
+    left:229px;
+    line-height: 70px;
+    font-weight: bold;
+    font-size:32px ;
+    color: #014239;
+    text-align: center;
+    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/power/cardbtn.png");
+}
+#citybtn.btnFocus{
+    color: #874000;
+    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/power/cardbtnfocus.png");
+}
+#cityImg{
+    width: 375px;
+    height: 215px;
+    position: fixed;
+    left:269px;
+    top:383px;
+}
+#toptitle{
+    text-align: center;
+    width: 375px;
+    height: 100px;
+    position: absolute;
+    left: 156px;
+    top: 35px;
+    font-size: 36px;
+    color: #0e7a6b;
+    font-weight: normal;
+}
+#wordtitle{
+    text-align: center;
+    width: 375px;
+    height: 45px;
+    position: absolute;
+    top: 396px;
+    left: 155px;
+    font-size: 30px;
+    line-height: 48px;
+    color: #fff;
+}
+#cityword{
+    width: 412px;
+    height: 165px;
+    position: absolute;
+    top: 453px;
+    left: 135px;
+    font-size: 36px;
+    line-height: 45px;
+}
+.xinyu1{
+    width: 475px;
+    height: 42px;
+    display: block;
+    position: fixed;
+    left:219px;
+    top:706px;
+    font-size: 20px;
+    color: #888;
+    text-align: center;
+}
+.xinyu2{
+    width: 475px;
+    height: 42px;
+    display: block;
+    position: fixed;
+    left:219px;
+    top:750px;
+    font-size: 20px;
+    color: #888;
+    text-align: right;
+}
+.xinyu3{
+    width: 475px;
+    height: 45px;
+    display: block;
+    position: fixed;
+    left:219px;
+    top:813px;
+    font-size: 22px;
+    color: #0baa93;
+    text-align: right;
+}
+.awardimg{
+    display: block;
+    position: fixed;
+    left:279px;
+    top:709px;
+    width: 140px;
+    height: 140px;
+    background:white ;
+}
+.awardword{
+    display: block;
+    position: fixed;
+    top:709px;
+    left:425px;
+    width: 233px;
+    height:140px;
+    font-size: 22px;
+    color: #0bac96;
+    text-align: left;
+    padding-top: 25px;
+}
+#moviebox,#mallbox{
+    width: 1920px;
+    height:1080px;
+    position: absolute;
+    top:0;
+    left:0;
+    display: none;
+}
+.pkg{
+    width: 247px;
+    height:346px;
+    position: absolute;
+    border: 4px solid transparent;
+}
+.pkg.btnFocus{
+    border: 4px solid #68b571;
+}
+.pkg:nth-child(1),.pkg:nth-child(2),.pkg:nth-child(3){
+    top:252px;
+}
+.pkg:nth-child(4),.pkg:nth-child(5),.pkg:nth-child(6){
+    top:624px;
+}
+.pkg:nth-child(4),.pkg:nth-child(1){
+    left: 900px;
+}
+.pkg:nth-child(2),.pkg:nth-child(5){
+    left:1203px ;
+}
+.pkg:nth-child(3),.pkg:nth-child(6){
+    left:1506px;
+}
+
+.shop{
+    width: 280px;
+    height:360px;
+    position: absolute;
+    border: 4px solid transparent;
+}
+.shop.btnFocus{
+    border: 4px solid #68b571;
+}
+.shop:nth-child(1),.shop:nth-child(2),.shop:nth-child(3){
+    top:237px;
+}
+.shop:nth-child(4),.shop:nth-child(5),.shop:nth-child(6){
+    top:623px;
+}
+.shop:nth-child(4),.shop:nth-child(1){
+    left: 890px;
+}
+.shop:nth-child(2),.shop:nth-child(5){
+    left:1200px ;
+}
+.shop:nth-child(3),.shop:nth-child(6){
+    left:1510px;
+}
+
+
+
+#finishAndLight{
+    width:200px;
+    height:500px;
+    background: orangered;
+    display: none;
+}

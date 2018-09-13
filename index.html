@@ -14,7 +14,11 @@
 <body>
     <div id="deviceready">
         <div id="mainMap">
-            <div id="totalBox">当前已获得<span id="cityNum"></span>张景点卡</div>
+            <span id="cityNum"></span>
+            <span id="remainNum"></span>
+            <div id="lefttips"></div>
+            <div id="gifPic"><img></div>
+            <div id="mapline"></div>
             <div id="cityMap">
                 <div id="city0" class="coocaabtn city" ></div>
                 <div id="city1" class="coocaabtn city" ></div>
@@ -33,35 +37,59 @@
                 <div id="city14" class="coocaabtn city" ></div>
             </div>
             <div id="cityCard">
-                <div id="cityCard0" class="citycard"><div class="cityWord">欢迎来到台湾 日月潭</div><div class="cityImg"></div><div  class="cityBottom">xxxxxxxxxxxx</div><div class="cityBtn coocaabtn" lefTarget="#city0" upTarget="#city1" downTarget="#city0">hi1</div> </div>
-                <div id="cityCard1" class="citycard"><div class="cityWord">欢迎来到香港 维多利亚港</div><div class="cityImg"></div><div  class="cityBottom">xxxxxxxxxxxx</div><div class="cityBtn coocaabtn" upTarget="#city2" downTarget="#city0">hi2</div> </div>
-                <div id="cityCard2" class="citycard"><div class="cityWord">欢迎来到广西 桂林山水</div><div class="cityImg"></div><div  class="cityBottom">xxxxxxxxxxxx</div><div class="cityBtn coocaabtn" upTarget="#city3" downTarget="#city1">hi3</div> </div>
-                <div id="cityCard3" class="citycard"><div class="cityWord">欢迎来到湖南 张家界</div><div class="cityImg"></div><div  class="cityBottom">xxxxxxxxxxxx</div><div class="cityBtn coocaabtn" upTarget="#city4" downTarget="#city2">hi3</div> </div>
-                <div id="cityCard4" class="citycard"><div class="cityWord">欢迎来到浙江 杭州西湖</div><div class="cityImg"></div><div  class="cityBottom">xxxxxxxxxxxx</div><div class="cityBtn coocaabtn" upTarget="#city5" downTarget="#city3">hi3</div> </div>
-                <div id="cityCard5" class="citycard"><div class="cityWord">欢迎来到江苏 苏州园林</div><div class="cityImg"></div><div  class="cityBottom">xxxxxxxxxxxx</div><div class="cityBtn coocaabtn" upTarget="#city6" downTarget="#city4">hi3</div> </div>
-                <div id="cityCard6" class="citycard"><div class="cityWord">欢迎来到黑龙江 雪乡</div><div class="cityImg"></div><div  class="cityBottom">xxxxxxxxxxxx</div><div class="cityBtn coocaabtn" upTarget="#city7" downTarget="#city5">hi3</div> </div>
-                <div id="cityCard7" class="citycard"><div class="cityWord">欢迎来到内蒙古 鄂尔多斯大草原</div><div class="cityImg"></div><div  class="cityBottom">xxxxxxxxxxxx</div><div class="cityBtn coocaabtn" upTarget="#city8" downTarget="#city6">hi3</div> </div>
-                <div id="cityCard8" class="citycard"><div class="cityWord">欢迎来到甘肃 敦煌莫高窟</div><div class="cityImg"></div><div  class="cityBottom">xxxxxxxxxxxx</div><div class="cityBtn coocaabtn" upTarget="#city9" downTarget="#city7">hi3</div> </div>
-                <div id="cityCard9" class="citycard"><div class="cityWord">欢迎来到新疆 喀纳斯湖</div><div class="cityImg"></div><div  class="cityBottom">xxxxxxxxxxxx</div><div class="cityBtn coocaabtn" upTarget="#city10" downTarget="#city8">hi3</div> </div>
-                <div id="cityCard10" class="citycard"><div class="cityWord">欢迎来到西藏 布达拉宫</div><div class="cityImg"></div><div  class="cityBottom">xxxxxxxxxxxx</div><div class="cityBtn coocaabtn" upTarget="#city11" downTarget="#city9">hi3</div> </div>
-                <div id="cityCard11" class="citycard"><div class="cityWord">欢迎来到云南 大理古城</div><div class="cityImg"></div><div  class="cityBottom">xxxxxxxxxxxx</div><div class="cityBtn coocaabtn" upTarget="#city12" downTarget="#city10">hi3</div> </div>
-                <div id="cityCard12" class="citycard"><div class="cityWord">欢迎来到四川 九寨沟</div><div class="cityImg"></div><div  class="cityBottom">xxxxxxxxxxxx</div><div class="cityBtn coocaabtn" upTarget="#city13" downTarget="#city11">hi3</div> </div>
-                <div id="cityCard13" class="citycard"><div class="cityWord">欢迎来到陕西 秦始皇兵马俑</div><div class="cityImg"></div><div  class="cityBottom">xxxxxxxxxxxx</div><div class="cityBtn coocaabtn" upTarget="#city14" downTarget="#city12">hi3</div> </div>
-                <div id="cityCard14" class="citycard"><div class="cityWord">欢迎来到北京 天安门</div><div class="cityImg"></div><div  class="cityBottom">xxxxxxxxxxxx</div><div class="cityBtn coocaabtn" upTarget="#city14" downTarget="#city13">hi3</div> </div>
+                <div id="cityCard0" class="citycard"><div class="cityWord"></div><div class="cityImg"><img></div><div class="cardTitle"></div><div  class="cityBottom"></div><div class="cityBtn coocaabtn" upTarget="#city1" downTarget="#city14"></div> </div>
+                <div id="cityCard1" class="citycard"><div class="cityWord"></div><div class="cityImg"><img></div><div class="cardTitle"></div><div  class="cityBottom"></div><div class="cityBtn coocaabtn" upTarget="#city2" downTarget="#city0"></div> </div>
+                <div id="cityCard2" class="citycard"><div class="cityWord"></div><div class="cityImg"><img></div><div class="cardTitle"></div><div  class="cityBottom"></div><div class="cityBtn coocaabtn" upTarget="#city3" downTarget="#city1"></div> </div>
+                <div id="cityCard3" class="citycard"><div class="cityWord"></div><div class="cityImg"><img></div><div class="cardTitle"></div><div  class="cityBottom"></div><div class="cityBtn coocaabtn" upTarget="#city4" downTarget="#city2"></div> </div>
+                <div id="cityCard4" class="citycard"><div class="cityWord"></div><div class="cityImg"><img></div><div class="cardTitle"></div><div  class="cityBottom"></div><div class="cityBtn coocaabtn" upTarget="#city5" downTarget="#city3"></div> </div>
+                <div id="cityCard5" class="citycard"><div class="cityWord"></div><div class="cityImg"><img></div><div class="cardTitle"></div><div  class="cityBottom"></div><div class="cityBtn coocaabtn" upTarget="#city6" downTarget="#city4"></div> </div>
+                <div id="cityCard6" class="citycard"><div class="cityWord"></div><div class="cityImg"><img></div><div class="cardTitle"></div><div  class="cityBottom"></div><div class="cityBtn coocaabtn" upTarget="#city7" downTarget="#city5"></div> </div>
+                <div id="cityCard7" class="citycard"><div class="cityWord"></div><div class="cityImg"><img></div><div class="cardTitle"></div><div  class="cityBottom"></div><div class="cityBtn coocaabtn" upTarget="#city8" downTarget="#city6"></div> </div>
+                <div id="cityCard8" class="citycard"><div class="cityWord"></div><div class="cityImg"><img></div><div class="cardTitle"></div><div  class="cityBottom"></div><div class="cityBtn coocaabtn" upTarget="#city9" downTarget="#city7"></div> </div>
+                <div id="cityCard9" class="citycard"><div class="cityWord"></div><div class="cityImg"><img></div><div class="cardTitle"></div><div  class="cityBottom"></div><div class="cityBtn coocaabtn" upTarget="#city10" downTarget="#city8"></div> </div>
+                <div id="cityCard10" class="citycard"><div class="cityWord"></div><div class="cityImg"><img></div><div class="cardTitle"></div><div  class="cityBottom"></div><div class="cityBtn coocaabtn" upTarget="#city11" downTarget="#city9"></div> </div>
+                <div id="cityCard11" class="citycard"><div class="cityWord"></div><div class="cityImg"><img></div><div class="cardTitle"></div><div  class="cityBottom"></div><div class="cityBtn coocaabtn" upTarget="#city12" downTarget="#city10"></div> </div>
+                <div id="cityCard12" class="citycard"><div class="cityWord"></div><div class="cityImg"><img></div><div class="cardTitle"></div><div  class="cityBottom"></div><div class="cityBtn coocaabtn" upTarget="#city13" downTarget="#city11"></div> </div>
+                <div id="cityCard13" class="citycard"><div class="cityWord"></div><div class="cityImg"><img></div><div class="cardTitle"></div><div  class="cityBottom"></div><div class="cityBtn coocaabtn" upTarget="#city14" downTarget="#city12"></div> </div>
+                <div id="cityCard14" class="citycard"><div class="cityWord"></div><div class="cityImg"><img></div><div class="cardTitle"></div><div  class="cityBottom"></div><div class="cityBtn coocaabtn" upTarget="#city0" downTarget="#city13"></div> </div>
             </div>
             <div id="rightBtn">
-                <div id="gotoLottery" class="coocaabtn rightBtn">我要抽奖</div>
-                <div id="morecard" class="coocaabtn rightBtn">更多景点卡</div>
-                <div id="myGift" class="coocaabtn rightBtn">我的礼包</div>
-                <div id="strategy" class="coocaabtn rightBtn">万元现金攻略</div>
+                <div id="gotoLottery" class="coocaabtn rightBtn" upTarget="#gotoLottery"></div>
+                <div id="morecard" class="coocaabtn rightBtn"></div>
+                <div id="myGift" class="coocaabtn rightBtn"></div>
+                <div id="strategy" class="coocaabtn rightBtn" downTarget="#strategy"></div>
+            </div>
+
+        </div>
+        <div id="blackbg"></div>
+        <div id="toast2" class="toast2">
+            <div id="nowhave"></div>
+            <div id="toastbtn1" class="awardBtn1 toastbtn"><img class="toastbtn1" src="http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/border.png"><img class="choicebtn1" src="http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/toastbtn1.png"></div>
+            <div id="toastbtn2" class="awardBtn2 toastbtn"><img class="toastbtn1"  src="http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/border.png"><img class="choicebtn2" src="http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/toastbtn2.png"></div>
+        </div>
+        <div id="endPage">
+            <div id="rightBtn2">
+                <div id="myGift2" class="coocaabtn rightBtn"></div>
             </div>
         </div>
         <div id="moreChance">
-            <div class="moviePkg coocaabtn2"></div>
-            <div class="mallPkg  coocaabtn2"></div>
+            <div class="moviePkg coocaabtn2"><img src=""><div class="buybtn"></div></div>
+            <div class="moviePkg coocaabtn2"><img src=""><div class="buybtn"></div></div>
+            <div class="moviePkg coocaabtn2"><img src=""><div class="buybtn"></div></div>
+            <div class="moviePkg coocaabtn2"><img src=""><div class="buybtn"></div></div>
+            <div class="qmallPkg  coocaabtn2" pageid="15167" type="2" name="奔腾男士电动刮胡刀"><img src="http://sky.fs.skysrt.com/statics/webvip/webapp/national/moreChance/mall111.png"><div class="buybtn"></div></div>
+            <div class="qmallPkg  coocaabtn2" pageid="16541" type="2" name="山水便携充电式果汁机"><img src="http://sky.fs.skysrt.com/statics/webvip/webapp/national/moreChance/mall33.png"><div class="buybtn"></div></div>
+            <div class="qmallPkg  coocaabtn2" pageid="10518" type="2" name="奔腾极速蒸汽挂烫机"><img src="http://sky.fs.skysrt.com/statics/webvip/webapp/national/moreChance/mall22.png"><div class="buybtn"></div></div>
+            <div class="qmallPkg  coocaabtn2" pageid="15904" type="2" name="山水智能感应垃圾桶"><img src="http://sky.fs.skysrt.com/statics/webvip/webapp/national/moreChance/mall44.png"><div class="buybtn"></div></div>
+            <div class="coocaabtn2" id="moreMovie"></div>
+            <div class="coocaabtn2" id="moreEdu"></div>
+            <div class="coocaabtn2" id="moreMall"></div>
         </div>
-        <div id="strategyPage" class="coocaabtn3">
-
+        <div id="strategyPage" >
+            <div id="tips" class="coocaabtn3 boxChoices" leftTarget="#tips">万元攻略</div>
+            <div id="rule" class="coocaabtn3 boxChoices" rightTarget="#rule">活动规则</div>
+            <div id="tipsbox" class="wordbox coocaabtn3"><img src="http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/rule22.png"><img src="http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/rule11.png"></div>
+            <div id="rulebox" class="wordbox coocaabtn3"><img src="http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/rule11.png"><img src="http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/rule22.png"></div>
         </div>
     </div>
     <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
