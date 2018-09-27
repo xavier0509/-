@@ -1,5 +1,6 @@
 var btnFrom = null;
-function hasLogin(needQQ) {
+var exterInfo = "";
+function hasLogin(needQQ,fresh) {
     coocaaosapi.hasCoocaaUserLogin(function(message) {
         console.log("haslogin " + message.haslogin);
         loginstatus = message.haslogin;
@@ -11,7 +12,9 @@ function hasLogin(needQQ) {
             }
             user_flag = 0;
             access_token = "";
-            // showPage();
+            if(fresh){
+                showPage(true,false);
+            }
         } else {
             coocaaosapi.getUserInfo(function(message) {
                 console.log("funnyxxxxxx==" + JSON.stringify(message))
@@ -58,11 +61,15 @@ function hasLogin(needQQ) {
                                         loginstatus = "false";
                                     }
                                 }
-                                // showPage();
+                                if(fresh){
+                                    showPage(true,false);
+                                }
                             } else {
                                 tencentWay = "both";
                                 loginstatus = "false";
-                                // showPage();
+                                if(fresh){
+                                    showPage(true,false);
+                                }
                             }
                         } else {
                             var needSelectNum = 0;
@@ -90,7 +97,9 @@ function hasLogin(needQQ) {
                                     loginstatus = "false";
                                 }
                             }
-                            // showPage();
+                            if(fresh){
+                                showPage(true,false);
+                            }
                         }
                     } else {
                         qqinfo = JSON.parse(exterInfo);
@@ -115,7 +124,9 @@ function hasLogin(needQQ) {
                             return;
                         }else{
                             showFlag = access_token
-                            // showPage();
+                            if(fresh){
+                                showPage(true,false);
+                            }
                         }
                     }
                 }, function(error) { console.log(error); })
@@ -315,7 +326,6 @@ function lightCityApi(obj,num,type,parentNode) {
             if (data.code == 50100) {
                 if(type == "A001"){
                     console.log("点亮城市");
-                    $("#gifPic img").attr("src","http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/gifpic.gif");
                     $(obj).html("继续点亮");
                     $(obj).addClass("hasLight");
                     $("#city"+num).addClass("hasLight");
@@ -331,6 +341,8 @@ function lightCityApi(obj,num,type,parentNode) {
                     $("#cityNum").html(cityNum);
                     $("#remainNum").html(remainNum);
                     if(!data.data.haveAward){
+                        $("#gif1").show();
+                        $("#gif1").attr("src","http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/gif1.gif");
                         $(parentNode).children('.cardTitle').html("领到一张景点新语卡");
                         if(cityNum<3){
                             $(parentNode).children('.cityBottom').html("<span class='xinyu1'>"+_powerData[data.data.cityKey].title+"</span><span class='xinyu2'>"+_powerData[data.data.cityKey].from+"</span><span class='xinyu3'>累计点亮3张，即有机会领取1000元现金哦！</span> ");
@@ -340,6 +352,8 @@ function lightCityApi(obj,num,type,parentNode) {
                             $(parentNode).children('.cityBottom').html("<span class='xinyu1'>"+_powerData[data.data.cityKey].title+"</span><span class='xinyu2'>"+_powerData[data.data.cityKey].from+"</span><span class='xinyu3'>累计点亮7张，即有机会领取5000元现金哦！</span> ");
                         }
                     }else{
+                        $("#gif2").show();
+                        $("#gif2").attr("src","http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/gif222.gif");
                         $(parentNode).children('.cardTitle').html("获得"+data.data.awardRemember.awardName);
                         $(parentNode).children('.cityBottom').html('<span class="awardimg"><img src="'+data.data.awardRemember.awardUrl+'"></span><span class="awardword">&nbsp;请在活动页面-<br>【我的奖励】中领取</span> ');
                     }
@@ -368,7 +382,7 @@ function lightCityApi(obj,num,type,parentNode) {
                     }
                     $(".pkg:eq(3)").attr("leftTarget","#citybtn");
                     $(".shop:eq(3)").attr("leftTarget","#citybtn");
-                    sentLog("web_page_show_new",'{"page_name":"nalm_channel_task_page","module_type":"'+comefrom+'","activity_status":"1"}');
+                    sentLog("web_page_show_new",'{"page_name":"nalm_channel_task_page","module_type":"'+comefrom+'","activity_status":"1","chance_status":"1"}');
                 }
             } else {
                 if(type == "A002"){
@@ -379,7 +393,7 @@ function lightCityApi(obj,num,type,parentNode) {
                         $(".pkg:eq(3)").attr("leftTarget","#goindex");
                         $(".shop:eq(3)").attr("leftTarget","#goindex");
                         $("#leftbox").css("background","url('http://sky.fs.skysrt.com/statics/webvip/webapp/national/power/newnochance.png')");
-                        sentLog("web_page_show_new",'{"page_name":"nalm_channel_task_page","module_type":"'+comefrom+'","activity_status":"1"}');
+                        sentLog("web_page_show_new",'{"page_name":"nalm_channel_task_page","module_type":"'+comefrom+'","activity_status":"1","chance_status":"0"}');
                     }else if(data.code == 50002){
                         console.log("未开始");
                         $("#citybtn").hide();

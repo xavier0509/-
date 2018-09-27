@@ -17,10 +17,13 @@ var app = {
         console.log("===========================pause==========");
     },
     handleBackButton: function() {
-
     },
     handleBackButtonDown: function() {
-        exit()
+        if($("#errortoast").css("display") == "block"){
+            hideToast();
+        }else{
+            exit()
+        }
     },
 
     onDeviceReady: function() {
@@ -52,21 +55,6 @@ var app = {
             } else{
                 emmcId = message.emmcid;
             }
-            // macAddress = "1234";
-            // TVmodel = "1234";
-            // TVchip = "1234";
-            // activityId = "123456";
-            // emmcId = "1234";
-            // if (deviceInfo.version < '6') {
-            //     android.getPropertiesValue("persist.service.homepage.pkg", function(data) {
-            //         var val = data.propertiesValue;
-            //         if ("com.tianci.movieplatform" == val) {
-            //             startActionReplace = "coocaa.intent.action.HOME.Translucent";
-            //         } else {
-            //             startActionReplace = "coocaa.intent.movie.home";
-            //         }
-            //     });
-            // }
             startPage();
         }, function(error) { console.log("get deviceinfo error") })
     },
@@ -92,15 +80,15 @@ function initBtn() {
             if(loginstatus == "true"){landstatus = 1;}
             var activitystatus = 1;
             if(gameStatus == "wait"){activitystatus = 0}
-            sentLog("nalm_channel_task_page_button_onclick",'{"button_name":"1","activity_status":"'+activitystatus+'","landing_status":"'+landstatus+'"}');
-            coocaaosapi.startNewBrowser("http://beta.webapp.skysrt.com/games/yure/index.html",function(){},function(){});
+            sentLog("nalm_channel_task_page_button_onclick",'{"module_type":"'+comefrom+'","button_name":"1","activity_status":"'+activitystatus+'","login_status":"'+landstatus+'"}');
+            coocaaosapi.startNewBrowser(mainurl,function(){},function(){});
         }else if(btnFrom == "gogift"){
             var landstatus = 0;
             if(loginstatus == "true"){landstatus = 1;}
             var activitystatus = 1;
             if(gameStatus == "wait"){activitystatus = 0}
-            sentLog("nalm_channel_task_page_button_onclick",'{"button_name":"0","activity_status":"'+activitystatus+'","landing_status":"'+landstatus+'"}');
-            coocaaosapi.startNewBrowser("http://beta.webapp.skysrt.com/lxw/gq/index.html?part=award&source=main",function(){},function(){});
+            sentLog("nalm_channel_task_page_button_onclick",'{"module_type":"'+comefrom+'","button_name":"0","activity_status":"'+activitystatus+'","login_status":"'+landstatus+'"}');
+            coocaaosapi.startNewBrowser(awardurl+activitystatus,function(){},function(){});
         }
     })
 
@@ -109,16 +97,42 @@ function initBtn() {
         if(loginstatus == "true"){landstatus = 1;}
         var activitystatus = 1;
         if(gameStatus == "wait"){activitystatus = 0}
-        sentLog("nalm_channel_task_page_button_onclick",'{"button_name":"2","activity_status":"'+activitystatus+'","landing_status":"'+landstatus+'"}');
-        coocaaosapi.startNewBrowser("http://beta.webapp.skysrt.com/games/yure/index.html?goto=shop",function(){},function(){});
+        sentLog("nalm_channel_task_page_button_onclick",'{"module_type":"'+comefrom+'","button_name":"2","activity_status":"'+activitystatus+'","login_status":"'+landstatus+'"}');
+        coocaaosapi.startNewBrowser(mainurl+"?goto=shop",function(){},function(){});
     })
 
     $(".pkg").unbind("itemClick").bind("itemClick",function () {
+        var newaction = false;
+        var newhomeaction = false;
+        var param = "";
         var pageid = $(this).attr("pageid");
         var pagename = $(this).attr("name");
         var pagetype = $(this).attr("type");
+        if(pagetype == "99"){
+            pagetype = 1;
+            param = "pTopicCode";
+            newaction = true;
+        }else if(pagetype == "66"){
+            pagetype = 0;
+            param = "topicCode";
+            newhomeaction = true;
+        }else{}
         sentLog("nalm_channel_task_page_content_onclick",'{"module_type":"'+pagetype+'","content_id":"'+pageid+'","content_name":"'+pagename+'"}');
-        coocaaosapi.startMovieDetail(pageid,function(){},function(){});
+        if(newaction){
+            newaction = false;
+            if(cAppVersion < 3300000){
+                $("#errortoast").show();
+                map = new coocaakeymap($("#errortoast"), $("#errortoast"), "btnFocus", function() {}, function(val) {}, function(obj) {});
+                setTimeout(hideToast,3000);
+            }else{
+                coocaaosapi.startVideospecial(param,pageid,function(){},function(){});
+            }
+        }else if(newhomeaction){
+            newhomeaction = false;
+            coocaaosapi.startMovieHomeSpecialTopic(pageid,function(){exit()},function(){});
+        }else{
+            coocaaosapi.startMovieDetail(pageid,function(){},function(){});
+        }
     })
 
     $(".shop").unbind("itemClick").bind("itemClick",function () {
@@ -128,6 +142,10 @@ function initBtn() {
         sentLog("nalm_channel_task_page_content_onclick",'{"module_type":"'+pagetype+'","content_id":"'+pageid+'","content_name":"'+pagename+'"}');
         coocaaosapi.startAppShopDetail(pageid,function(){},function(){});
     })
+}
+function hideToast() {
+    $("#errortoast").hide();
+    map = new coocaakeymap($(".coocaabtn"), $(".pkg:eq(3)"), "btnFocus", function() {}, function(val) {}, function(obj) {});
 }
 
 //页面初始化或刷新
@@ -143,11 +161,11 @@ function startPage() {
             console.log("返回状态：" + JSON.stringify(data));
             if(data.code == 0){
                 if (data.data.source == "tencent"){needQQ = true};
-                hasLogin(needQQ);
+                hasLogin(needQQ,false);
                 var fromTab = getUrlParam("from");
                 if(fromTab == "mall"){
                     comefrom = 2;
-                    $("#deviceready").css("background","url('http://sky.fs.skysrt.com/statics/webvip/webapp/national/power/mallbg.jpg')")
+                    $("#deviceready").css("background","url('http://sky.fs.skysrt.com/statics/webvip/webapp/national/power/finalmallbg.jpg')")
                     $("#mallbox").show();
                     initMap(".shop:eq(0)")
                     initPkg(_mallinfo,"mall");

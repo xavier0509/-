@@ -100,20 +100,38 @@ body {
     height: 30px;
     line-height: 30px;
     text-align: center;
-    top: 541.2px;
-    right: 157px;
+    top: 427px;
+    right: 120px;
     z-index: 11;
     color: white;
     font-size: 16px;
     color: #ffff00;
 }
 #gifPic{
-    width: 240px;
-    height:240px;
+    width: 1920px;
+    height:1080px;
     position: absolute;
-    top:500px;
-    right: 200px;
+    top:0px;
+    right: 0px;
     z-index: 333;
+}
+#gif1{
+    width: 732px;
+    height: 694px;
+    position: absolute;
+    top:276px;
+    left: 995px;
+    z-index: 333;
+    display: none;
+}
+#gif2{
+    width: 379px;
+    height: 141px;
+    position: absolute;
+    top:648px;
+    left: 1290px;
+    z-index: 333;
+    display: none;
 }
 #remainNum{
     display: block;
@@ -182,6 +200,7 @@ body {
     font-size: 30px;
     line-height: 45px;
     color: #fff;
+    font-weight: bold;
 }
 .cityBottom{
     width: 412px;
@@ -226,16 +245,20 @@ body {
     text-align: center;
 }
 .lightmoney,.missionName,.immediatelyname,.finishlightname,.nochancename{
-    width: 475px;
+    width: 412px;
     height: 158px;
-    line-height:158px;
     display: block;
-    position: fixed;
-    left:1013px;
-    top:701px;
-    font-size: 24px;
+    position: absolute;
+    top: 0;
+    left:0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    padding-top: 65px;
+    font-size: 36px;
     color: #0baa93;
     text-align: center;
+    font-weight: bold;
 }
 .awardimg{
     display: block;
@@ -245,6 +268,9 @@ body {
     width: 140px;
     height: 140px;
     background:white ;
+}
+.awardimg img{
+    width: 100%;
 }
 .awardword{
     display: block;
@@ -259,31 +285,31 @@ body {
     padding-top: 25px;
 }
 .cityBtn{
-    width:248px;
-    height:88px;
-    line-height: 78px;
+    width: 229px;
+    height:81px;
+    line-height: 70px;
     font-weight: bold;
     color: #014239;
     font-size: 32px;
     /*background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/cardbtnfocus.png");*/
-    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/cardbtn.gif");
+    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/cardbtnfocus.png");
     position: absolute;
-    top:867px;
-    left:1136px;
+    top:864px;
+    left:1126px;
 }
 .cityBtn.btnFocus{
-    width:229px;
-    height:81px;
-    line-height: 70px;
+    width:248px;
+    height:88px;
+    line-height: 78px;
     color: #874000;
-    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/cardbtn.png");
+    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/cardbtngif.gif");
 }
 .cityBtn.btnFocus.hasLight{
     /*background: greenyellow;*/
 }
 #rightBtn,#rightBtn2{
     position: absolute;
-    top:371px;
+    top:366px;
     right:0;
     height: 1080px;
     width:300px;
@@ -291,35 +317,34 @@ body {
 
 .rightBtn{
     display: none;
-    width:267px;
-    height:95px;
-    margin-bottom: 25px;
+    width:292px;
+    height:109px;
+    margin-bottom: 15px;
     position: relative;
-    background: red;
 }
 #gotoLottery{
-    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/lottery.png");
+    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/newbtn/lottery1.png");
 }
 #gotoLottery.btnFocus{
-    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/lotteryfocus.png");
+    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/newbtn/lottery1.gif");
 }
 #myGift,#myGift2{
-    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/gift.png");
+    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/newbtn/mygift.png");
 }
 #myGift.btnFocus,#myGift2.btnFocus{
-    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/giftfocus.png");
+    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/newbtn/mygift.gif");
 }
 #morecard{
-    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/morecard.png");
+    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/newbtn/morecard1.png");
 }
 #morecard.btnFocus{
-    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/morecardfocus.png");
+    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/newbtn/morecard1.gif");
 }
 #strategy{
-    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/strategy.png");
+    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/newbtn/strategy.png");
 }
 #strategy.btnFocus{
-    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/strategyfocus.png");
+    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/newbtn/strategy.gif");
 }
 
 
@@ -333,7 +358,7 @@ body {
     left:0;
     overflow: hidden;
     display: none;
-    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/moreChance/newbg123.jpg");
+    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/moreChance/finalbg.jpg");
 }
 .coocaabtn2{
     width: 286px;
@@ -446,6 +471,9 @@ body {
     top: 116px;
     left:35px;
     display: none;
+}
+#tipsbox{
+    width: 1920px;
 }
 #city0{position:absolute;top:753px;left:782px;width:55px;height:106px;background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/tw1.png);}
 #city0.hasLight{background:url(http://sky.fs.skysrt.com/statics/webvip/webapp/national/citystatus/tw2.png);}

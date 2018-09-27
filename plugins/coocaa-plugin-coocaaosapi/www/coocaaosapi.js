@@ -296,6 +296,19 @@ cordova.define("coocaaosapi", function(require, exports, module) {
     }
 
     /*
+     * 轮播专题
+     */
+    CoocaaOSApi.prototype.startVideospecial = function(param,detailid, success, error) {
+        argscheck.checkArgs('ssff', 'CoocaaOSApi.startVideospecial', arguments);
+        startapp.start([
+            ["action", "coocaa.intent.movie.videospecial"],
+            [{
+                'pTopicCode': detailid
+            }]
+        ], success, error);
+    }
+
+    /*
      *启动影视专题页
      */
     CoocaaOSApi.prototype.startMovieTopic = function(topicid, success, error) {
@@ -362,6 +375,8 @@ cordova.define("coocaaosapi", function(require, exports, module) {
             'name': name
         }, {
             'needparse': needparse
+        },{
+            'urlType':"url"
         }]);
     }
 

@@ -17,7 +17,7 @@
             <span id="cityNum"></span>
             <span id="remainNum"></span>
             <div id="lefttips"></div>
-            <div id="gifPic"><img></div>
+            <div id="gifPic"><img id="gif1"><img id="gif2"></div>
             <div id="mapline"></div>
             <div id="cityMap">
                 <div id="city0" class="coocaabtn city" ></div>
@@ -64,8 +64,8 @@
         <div id="blackbg"></div>
         <div id="toast2" class="toast2">
             <div id="nowhave"></div>
-            <div id="toastbtn1" class="awardBtn1 toastbtn"><img class="toastbtn1" src="http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/border.png"><img class="choicebtn1" src="http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/toastbtn1.png"></div>
-            <div id="toastbtn2" class="awardBtn2 toastbtn"><img class="toastbtn1"  src="http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/border.png"><img class="choicebtn2" src="http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/toastbtn2.png"></div>
+            <div id="toastbtn1" class="awardBtn1 toastbtn"><img id="setimg1" class="toastbtn1" src=""><img id="setimg2" class="choicebtn1" src=""></div>
+            <div id="toastbtn2" class="awardBtn2 toastbtn"><img id="setimg3" class="toastbtn1"  src=""><img id="setimg4" class="choicebtn2" src=""></div>
         </div>
         <div id="endPage">
             <div id="rightBtn2">
@@ -77,10 +77,10 @@
             <div class="moviePkg coocaabtn2"><img src=""><div class="buybtn"></div></div>
             <div class="moviePkg coocaabtn2"><img src=""><div class="buybtn"></div></div>
             <div class="moviePkg coocaabtn2"><img src=""><div class="buybtn"></div></div>
-            <div class="qmallPkg  coocaabtn2" pageid="15167" type="2" name="奔腾男士电动刮胡刀"><img src="http://sky.fs.skysrt.com/statics/webvip/webapp/national/moreChance/mall111.png"><div class="buybtn"></div></div>
-            <div class="qmallPkg  coocaabtn2" pageid="16541" type="2" name="山水便携充电式果汁机"><img src="http://sky.fs.skysrt.com/statics/webvip/webapp/national/moreChance/mall33.png"><div class="buybtn"></div></div>
-            <div class="qmallPkg  coocaabtn2" pageid="10518" type="2" name="奔腾极速蒸汽挂烫机"><img src="http://sky.fs.skysrt.com/statics/webvip/webapp/national/moreChance/mall22.png"><div class="buybtn"></div></div>
-            <div class="qmallPkg  coocaabtn2" pageid="15904" type="2" name="山水智能感应垃圾桶"><img src="http://sky.fs.skysrt.com/statics/webvip/webapp/national/moreChance/mall44.png"><div class="buybtn"></div></div>
+            <div class="qmallPkg  coocaabtn2" pageid="15167" type="2" name="奔腾男士电动刮胡刀"><img id="setimg5" src=""><div class="buybtn"></div></div>
+            <div class="qmallPkg  coocaabtn2" pageid="16541" type="2" name="山水便携充电式果汁机"><img id="setimg6" src=""><div class="buybtn"></div></div>
+            <div class="qmallPkg  coocaabtn2" pageid="10518" type="2" name="奔腾极速蒸汽挂烫机"><img id="setimg7" src=""><div class="buybtn"></div></div>
+            <div class="qmallPkg  coocaabtn2" pageid="15904" type="2" name="山水智能感应垃圾桶"><img id="setimg8" src=""><div class="buybtn"></div></div>
             <div class="coocaabtn2" id="moreMovie"></div>
             <div class="coocaabtn2" id="moreEdu"></div>
             <div class="coocaabtn2" id="moreMall"></div>
@@ -88,8 +88,8 @@
         <div id="strategyPage" >
             <div id="tips" class="coocaabtn3 boxChoices" leftTarget="#tips">万元攻略</div>
             <div id="rule" class="coocaabtn3 boxChoices" rightTarget="#rule">活动规则</div>
-            <div id="tipsbox" class="wordbox coocaabtn3"><img src="http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/rule22.png"><img src="http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/rule11.png"></div>
-            <div id="rulebox" class="wordbox coocaabtn3"><img src="http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/rule11.png"><img src="http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/rule22.png"></div>
+            <div id="tipsbox" class="wordbox coocaabtn3"><img id="setimg9" src=""><img id="setimg10" src=""></div>
+            <div id="rulebox" class="wordbox coocaabtn3"><img id="setimg11" src=""><img id="setimg12" src=""></div>
         </div>
     </div>
     <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
@@ -101,8 +101,18 @@
     <script type="text/javascript" src="js/coocaamap-1.1.js"></script>
     <script type="text/javascript">
     window.onload = function() {
-//        setTimeout('$("#strategyPage").attr("class","cbg show")',2000)
-//        showPage();
+        setTimeout('$("#setimg1").attr("src","http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/border.png")',0);
+        setTimeout('$("#setimg2").attr("src","http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/toastbtn1.png")',0);
+        setTimeout('$("#setimg3").attr("src","http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/border.png")',0);
+        setTimeout('$("#setimg4").attr("src","http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/toastbtn2.png")',0);
+        setTimeout('$("#setimg5").attr("src","http://sky.fs.skysrt.com/statics/webvip/webapp/national/moreChance/mallfinal1.png")',0);
+        setTimeout('$("#setimg6").attr("src","http://sky.fs.skysrt.com/statics/webvip/webapp/national/moreChance/mall33.png")',0);
+        setTimeout('$("#setimg7").attr("src","http://sky.fs.skysrt.com/statics/webvip/webapp/national/moreChance/mall22.png")',0);
+        setTimeout('$("#setimg8").attr("src","http://sky.fs.skysrt.com/statics/webvip/webapp/national/moreChance/mall44.png")',0);
+        setTimeout('$("#setimg9").attr("src","http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/strategy1.png")',0);
+        setTimeout('$("#setimg10").attr("src","http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/strategy2.png")',0);
+        setTimeout('$("#setimg11").attr("src","http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/rule11.png")',0);
+        setTimeout('$("#setimg12").attr("src","http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/rule222.png")',0);
     }
     </script>
 </body>

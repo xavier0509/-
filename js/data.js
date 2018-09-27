@@ -41,14 +41,23 @@ var endTime = null;
 var nowTime = null;
 var forNum = 0;
 
-var adressIp = "http://beta.restful.lottery.coocaatv.com";
-var actionId = "143";
+// var adressIp = "http://beta.restful.lottery.coocaatv.com";
+var adressIp = "https://restful.skysrt.com";
+// var actionId = "143";
+var actionId = "61";
 
 var _listenObj = null;
 var _listenNum = null;
 var _listenType = null;
 
 var comefrom = 0; //影视：0；教育：1；购物：2[任务版面]
+
+var needSentUserLog = false;
+var startActionReplace = "coocaa.intent.action.HOME";
+
+var drawurl = "https://webapp.skysrt.com/national/lottery/index.html?part=draw&source=main";
+var awardurl = "https://webapp.skysrt.com/national/lottery/index.html?part=award&source=main&status=";
+var mainurl = "https://webapp.skysrt.com/national/main/index.html";
 
 var _powerData = {
     "city1":{"from":"——李静宜《台湾海峡的风》","title":"台湾海峡的风，吹向稀微的山坪。","name":"台北101","img":"http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/city1.png","lightimg":"http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/fcity1.png"},
@@ -69,12 +78,12 @@ var _powerData = {
 }
 
 var _eduinfo = {
-    "pkg1":{"img":"http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/city15.png","id":"_otx_tch_bomei041","name":"小猪佩奇","type":"1"},
-    "pkg2":{"img":"http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/city15.png","id":"_otx_tch_tch_hdeh130","name":"小伶玩具","type":"1"},
-    "pkg3":{"img":"http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/city15.png","id":"","name":"","type":"1"},
-    "pkg4":{"img":"http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/city15.png","id":"","name":"","type":"1"},
-    "pkg5":{"img":"http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/city15.png","id":"","name":"","type":"1"},
-    "pkg6":{"img":"http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/city15.png","id":"","name":"","type":"1"}
+    "pkg1":{"img":"http://sky.fs.skysrt.com/statics/webvip/webapp/national/mycard/edu1.png","id":"_otx_tch_hdeh023","name":"超级飞侠","type":"1"},
+    "pkg2":{"img":"http://sky.fs.skysrt.com/statics/webvip/webapp/national/mycard/edu2.png","id":"_otx_tch_bomei041","name":"小猪佩奇","type":"1"},
+    "pkg3":{"img":"http://sky.fs.skysrt.com/statics/webvip/webapp/national/mycard/edu3.png","id":"_otx_tch_hdeh021","name":"小马宝莉大电影3-友谊大赛","type":"1"},
+    "pkg4":{"img":"http://sky.fs.skysrt.com/statics/webvip/webapp/national/mycard/edu4.png","id":"1455","name":"小学同步辅导","type":"99"},
+    "pkg5":{"img":"http://sky.fs.skysrt.com/statics/webvip/webapp/national/mycard/edu5.png","id":"_otx_tch_jiukan065","name":"宝宝辅食烩","type":"1"},
+    "pkg6":{"img":"http://sky.fs.skysrt.com/statics/webvip/webapp/national/mycard/edu6.png","id":"_otx_tch_jiukan071","name":"宝妈瑜伽第6季","type":"1"}
 }
 var _mallinfo = {
     "pkg1":{"img":"http://sky.fs.skysrt.com/statics/webvip/webapp/national/mycard/shop1.png","id":"13515","name":"SWISSWIN优选24英寸拉杆箱套组","type":"2"},
@@ -85,31 +94,31 @@ var _mallinfo = {
     "pkg6":{"img":"http://sky.fs.skysrt.com/statics/webvip/webapp/national/mycard/shop6.png","id":"16118","name":"康浩电动扫拖一体机1加1组","type":"2"}
 }
 var _tencentinfo = {
-    "pkg1":{"img":"http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/city13.png","id":"_otx_xgyd6mjl7vo6kpb","name":"爱情公寓","type":"0"},
-    "pkg2":{"img":"http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/city13.png","id":"_otx_r6ri9qkcu66dna8","name":"狄仁杰之四大天王","type":"0"},
-    "pkg3":{"img":"http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/city13.png","id":"_otx_1wbx6hb4d3icse8","name":"如懿传 ","type":"0"},
-    "pkg4":{"img":"http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/city13.png","id":"_otx_lcpwn26degwm7t3","name":"斗破苍穹 ","type":"0"},
-    "pkg5":{"img":"http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/city13.png","id":"_otx_33bfp8mmgakf0gi","name":"香蜜沉沉烬如霜 ","type":"0"},
-    "pkg6":{"img":"http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/city13.png","id":"_otx_of1afaffrf5p4s7","name":"娘道 ","type":"0"}
+    "pkg1":{"img":"http://sky.fs.skysrt.com/statics/webvip/webapp/national/mycard/tx1.jpg","id":"_otx_fgqtuu38z91hfyw","name":"一出好戏","type":"0"},
+    "pkg2":{"img":"http://sky.fs.skysrt.com/statics/webvip/webapp/national/mycard/tx2.jpg","id":"_otx_mlet450ud9xai1h","name":"侏罗纪世界2","type":"0"},
+    "pkg3":{"img":"http://sky.fs.skysrt.com/statics/webvip/webapp/national/mycard/tx3.jpg","id":"_otx_6983f15b7g5xch7","name":"动物世界 ","type":"0"},
+    "pkg4":{"img":"http://sky.fs.skysrt.com/statics/webvip/webapp/national/mycard/tx4.jpg","id":"_otx_coqnq6i120wojq6","name":"复仇者联盟3：无限战争 ","type":"0"},
+    "pkg5":{"img":"http://sky.fs.skysrt.com/statics/webvip/webapp/national/mycard/tx5.jpg","id":"_otx_7ai02pj2ra57ev8","name":"橙红年代 ","type":"0"},
+    "pkg6":{"img":"http://sky.fs.skysrt.com/statics/webvip/webapp/national/mycard/tx6.jpg","id":"_otx_hf3sw5dijpzz0h2","name":"欧洲攻略 ","type":"0"}
 }
 var _yinheinfo = {
-    "pkg1":{"img":"http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/city12.png","id":"_oqy_941072000","name":"新乌龙院之笑闹江湖","type":"0"},
-    "pkg2":{"img":"http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/city12.png","id":"_oqy_733867000","name":"狄仁杰之四大天王","type":"0"},
-    "pkg3":{"img":"http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/city12.png","id":"_oqy_229337501","name":"再创世纪 粤语","type":"0"},
-    "pkg4":{"img":"http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/city12.png","id":"_oqy_1063851400","name":"暹罗决：九神战甲 ","type":"0"},
-    "pkg5":{"img":"http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/city12.png","id":"_oqy_1151143700","name":"天下第一镖局","type":"0"},
-    "pkg6":{"img":"http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/city12.png","id":"_oqy_1063851400","name":"娘道","type":"0"}
+    "pkg1":{"img":"http://sky.fs.skysrt.com/statics/webvip/webapp/national/mycard/qy1.jpg","id":"102668","name":"一出好戏","type":"66"},
+    "pkg2":{"img":"http://sky.fs.skysrt.com/statics/webvip/webapp/national/mycard/qy2.jpg","id":"102667","name":"动物世界","type":"66"},
+    "pkg3":{"img":"http://sky.fs.skysrt.com/statics/webvip/webapp/national/mycard/qy33.jpg","id":"102562","name":"漫威系列","type":"66"},
+    "pkg4":{"img":"http://sky.fs.skysrt.com/statics/webvip/webapp/national/mycard/qy4.jpg","id":"_oqy_215589001","name":"橙红年代 ","type":"0"},
+    "pkg5":{"img":"http://sky.fs.skysrt.com/statics/webvip/webapp/national/mycard/qy5.jpg","id":"_oqy_760312500","name":"欧洲攻略","type":"0"},
+    "pkg6":{"img":"http://sky.fs.skysrt.com/statics/webvip/webapp/national/mycard/qy6.jpg","id":"_oqy_222869601","name":"鸣鸿传","type":"0"}
 }
 
 var _tencentPkginfo = {
-    "pkg1":{"img":"http://sky.fs.skysrt.com/statics/webvip/webapp/national/moreChance/txpkg1.png","product_id":"368","price":"1","name":"腾讯季卡","type":"0"},
+    "pkg1":{"img":"http://sky.fs.skysrt.com/statics/webvip/webapp/national/moreChance/txpkg1.png","product_id":"1103","price":"6800","name":"腾讯季卡","type":"0"},
     "pkg2":{"img":"http://sky.fs.skysrt.com/statics/webvip/webapp/national/moreChance/txpkg2.png","product_id":"1102","price":"19900","name":"腾讯年卡","type":"0"},
-    "pkg3":{"img":"http://sky.fs.skysrt.com/statics/webvip/webapp/national/moreChance/edupkg3.png","product_id":"1000081","price":"1","name":"三年级季卡","type":"1"},
+    "pkg3":{"img":"http://sky.fs.skysrt.com/statics/webvip/webapp/national/moreChance/edupkg3.png","product_id":"1107","price":"9800","name":"三年级季卡","type":"1"},
     "pkg4":{"img":"http://sky.fs.skysrt.com/statics/webvip/webapp/national/moreChance/edupkg4.png","product_id":"1106","price":"11120","name":"3-6岁半年卡","type":"1"}
 }
 var _yinhePkginfo = {
-    "pkg1":{"img":"http://sky.fs.skysrt.com/statics/webvip/webapp/national/moreChance/yinhepkg1.png","product_id":"1000233","price":"1","name":"爱奇艺季卡","type":"0"},
+    "pkg1":{"img":"http://sky.fs.skysrt.com/statics/webvip/webapp/national/moreChance/yinhepkg1.png","product_id":"1105","price":"8800","name":"爱奇艺季卡","type":"0"},
     "pkg2":{"img":"http://sky.fs.skysrt.com/statics/webvip/webapp/national/moreChance/yinhepkg2.png","product_id":"1104","price":"24900","name":"爱奇艺年卡","type":"0"},
-    "pkg3":{"img":"http://sky.fs.skysrt.com/statics/webvip/webapp/national/moreChance/edupkg3.png","product_id":"1000081","price":"1","name":"三年级季卡","type":"1"},
+    "pkg3":{"img":"http://sky.fs.skysrt.com/statics/webvip/webapp/national/moreChance/edupkg3.png","product_id":"1107","price":"9800","name":"三年级季卡","type":"1"},
     "pkg4":{"img":"http://sky.fs.skysrt.com/statics/webvip/webapp/national/moreChance/edupkg4.png","product_id":"1106","price":"11120","name":"3-6岁半年卡","type":"1"}
 }

@@ -18,7 +18,7 @@ body {
     position: absolute;
     top:0;
     left:0;
-    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/power/moviebg.jpg");
+    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/power/finalmoviebg.jpg");
 }
 #goindex{
     position: fixed;
@@ -55,8 +55,13 @@ body {
     background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/power/cardbtn.png");
 }
 #citybtn.btnFocus{
+    /*color: #874000;*/
+    /*background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/power/cardbtnfocus.png");*/
+    width:248px;
+    height:88px;
+    line-height: 78px;
     color: #874000;
-    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/power/cardbtnfocus.png");
+    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/cardbtngif.gif");
 }
 #cityImg{
     width: 375px;
@@ -138,6 +143,9 @@ body {
     height: 140px;
     background:white ;
 }
+.awardimg img{
+    width: 100%;
+}
 .awardword{
     display: block;
     position: fixed;
@@ -162,10 +170,12 @@ body {
     width: 247px;
     height:346px;
     position: absolute;
-    border: 4px solid transparent;
+    padding: 4px;
+    border: 6px solid transparent;
 }
 .pkg.btnFocus{
-    border: 4px solid #68b571;
+    padding: 4px;
+    border: 6px solid #ff6000;
 }
 .pkg:nth-child(1),.pkg:nth-child(2),.pkg:nth-child(3){
     top:252px;
@@ -187,10 +197,12 @@ body {
     width: 280px;
     height:360px;
     position: absolute;
-    border: 4px solid transparent;
+    padding: 4px;
+    border: 6px solid transparent;
 }
 .shop.btnFocus{
-    border: 4px solid #68b571;
+    padding: 4px;
+    border: 6px solid #ff6000;
 }
 .shop:nth-child(1),.shop:nth-child(2),.shop:nth-child(3){
     top:237px;
@@ -207,7 +219,38 @@ body {
 .shop:nth-child(3),.shop:nth-child(6){
     left:1510px;
 }
-
+#errortoast{
+    width:1920px;
+    height: 1080px;
+    position: absolute;
+    top:0;
+    left:0;
+    z-index: 99;
+    display: none;
+}
+#errortoast img{
+    width: 944px;
+    height: 605px;
+    position: absolute;
+    top: 0;
+    left:0;
+    bottom: 0;
+    right:0;
+    margin: auto;
+}
+#blackbg{
+    display:none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 1920px;
+    height: 1080px;
+    background-color: black;
+    -moz-opacity: 0.8;
+    opacity: 0.80;
+    filter: alpha(opacity=80);
+    z-index: 22;
+}
 
 
 #finishAndLight{

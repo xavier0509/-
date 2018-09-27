@@ -12,6 +12,12 @@ var app = {
     },
     handleresume: function() {
         console.log("===========================resume==========");
+        listenUser();
+        if(needSentUserLog){
+            needSentUserLog = false;
+            sentLog("nalm_account_landing_result",'{"landing_result":"0"}');
+            hasLogin(needQQ,false);
+        }
         if (needFresh) {
             needFresh = false;
             showPage(false,true);
@@ -35,7 +41,7 @@ var app = {
                 $("#mainMap").show();
                 needRememberFocus = true;
                 rememberFocus = "#morecard";
-                showPage(false,false);
+                showPage(false,true);
             }
         }else if($("#strategyPage").css("display") == "block"){
             $("#strategyPage").hide();
@@ -66,6 +72,16 @@ var app = {
         console.log('Received Event: ' + id);
         coocaaosapi.getDeviceInfo(function(message) {
             deviceInfo = message;
+            if (deviceInfo.version < '6') {
+                android.getPropertiesValue("persist.service.homepage.pkg", function(data) {
+                    var val = data.propertiesValue;
+                    if ("com.tianci.movieplatform" == val) {
+                        startActionReplace = "coocaa.intent.action.HOME.Translucent";
+                    } else {
+                        startActionReplace = "coocaa.intent.movie.home";
+                    }
+                });
+            }
             console.log("deviceinfo=============="+JSON.stringify(deviceInfo))
             macAddress = message.mac;
             TVmodel = message.model;
@@ -76,21 +92,6 @@ var app = {
             } else{
                 emmcId = message.emmcid;
             }
-            // macAddress = "123456";
-            // TVmodel = "123456";
-            // TVchip = "123456";
-            // activityId = "9876543210";
-            // emmcId = "123456";
-            // if (deviceInfo.version < '6') {
-            //     android.getPropertiesValue("persist.service.homepage.pkg", function(data) {
-            //         var val = data.propertiesValue;
-            //         if ("com.tianci.movieplatform" == val) {
-            //             startActionReplace = "coocaa.intent.action.HOME.Translucent";
-            //         } else {
-            //             startActionReplace = "coocaa.intent.movie.home";
-            //         }
-            //     });
-            // }
             var a ={MAC:macAddress,cChip:TVchip,cModel:TVmodel,cEmmcCID:emmcId,cUDID:activityId,cSize:message.panel,cChannel:"coocaa"};
             console.log("data====="+JSON.stringify(a))
             $.ajax({
@@ -109,8 +110,8 @@ var app = {
                             needQQ = true;
                         }
                     }
-                    hasLogin(needQQ);
-                    showPage(true,false);
+                    hasLogin(needQQ,true);
+
                     listenUser();
                     listenPay();
                     listenCommon();
@@ -186,7 +187,7 @@ function initBtn() {
                 if(loginstatus == "true"){landstatus = 1;}
                 var activitystatus = 1;
                 if(gameStatus == "wait"){activitystatus = 0}
-                sentLog("nalm_view_card_page_button_onclick",'{"button_name":"1","activity_status":"'+activitystatus+'","landing_status":"'+landstatus+'"}');
+                sentLog("nalm_view_card_page_button_onclick",'{"button_name":"1","activity_status":"'+activitystatus+'","login_status":"'+landstatus+'"}');
                 console.log("未点亮，即将点亮");
                 console.log("用户点击，记录需要点亮的城市卡");
                 $.ajax({
@@ -224,12 +225,13 @@ function initBtn() {
                     needFresh = true;
                     needRememberFocus = true;
                     rememberFocus = "#gotoLottery";
-                    coocaaosapi.startNewBrowser("http://beta.webapp.skysrt.com/lxw/gq/index.html?part=draw&source=main",function(){},function(){});
+                    coocaaosapi.removeUserChanggedListener(function(){});
+                    coocaaosapi.startNewBrowser(drawurl,function(){},function(){});
                     var landstatus = 0;
                     if(loginstatus == "true"){landstatus = 1;}
                     var activitystatus = 1;
                     if(gameStatus == "wait"){activitystatus = 0}
-                    sentLog("nalm_view_card_page_button_onclick",'{"button_name":"4","activity_status":"'+activitystatus+'","landing_status":"'+landstatus+'"}');
+                    sentLog("nalm_view_card_page_button_onclick",'{"button_name":"4","activity_status":"'+activitystatus+'","login_status":"'+landstatus+'"}');
                 }else{
                     var needGotoNextCity = _thisIndex;
                     for(var i=0;i<15;i++){
@@ -243,42 +245,54 @@ function initBtn() {
                     if(loginstatus == "true"){landstatus = 1;}
                     var activitystatus = 1;
                     if(gameStatus == "wait"){activitystatus = 0}
-                    sentLog("nalm_view_card_page_button_onclick",'{"button_name":"2","activity_status":"'+activitystatus+'","landing_status":"'+landstatus+'"}');
+                    sentLog("nalm_view_card_page_button_onclick",'{"button_name":"2","activity_status":"'+activitystatus+'","login_status":"'+landstatus+'"}');
                 }
             }
         }else{
-            console.log("没有机会，需要购买!");
-            // $("#morecard").trigger("itemClick");
-            $("#mainMap").hide();
-            $("#moreChance").show();
-            if(needQQ){
-                for(var i=1;i<=4;i++){
-                    var name = "pkg"+i;
-                    $(".moviePkg:eq("+(i-1)+") img").attr("src",_tencentPkginfo[name].img);
-                    $(".moviePkg:eq("+(i-1)+")").attr("productid",_tencentPkginfo[name].product_id);
-                    $(".moviePkg:eq("+(i-1)+")").attr("price",_tencentPkginfo[name].price);
-                    $(".moviePkg:eq("+(i-1)+")").attr("type",_tencentPkginfo[name].type);
-                    $(".moviePkg:eq("+(i-1)+")").attr("name",_tencentPkginfo[name].name);
-                }
+            if(forNum == 15){
+                needFresh = true;
+                needRememberFocus = true;
+                rememberFocus = "#gotoLottery";
+                var landstatus = 0;
+                if(loginstatus == "true"){landstatus = 1;}
+                var activitystatus = 1;
+                if(gameStatus == "wait"){activitystatus = 0}
+                sentLog("nalm_main_page_button_onclick",'{"button_name":"4","activity_status":"'+activitystatus+'","login_status":"'+landstatus+'"}');
+                coocaaosapi.removeUserChanggedListener(function(){});
+                coocaaosapi.startNewBrowser(drawurl,function(){},function(){});
             }else{
-                for(var i=1;i<=4;i++){
-                    var name = "pkg"+i;
-                    $(".moviePkg:eq("+(i-1)+") img").attr("src",_yinhePkginfo[name].img);
-                    $(".moviePkg:eq("+(i-1)+")").attr("productid",_yinhePkginfo[name].product_id);
-                    $(".moviePkg:eq("+(i-1)+")").attr("price",_yinhePkginfo[name].price);
-                    $(".moviePkg:eq("+(i-1)+")").attr("type",_yinhePkginfo[name].type);
-                    $(".moviePkg:eq("+(i-1)+")").attr("name",_yinhePkginfo[name].name);
+                console.log("没有机会，需要购买!");
+                // $("#morecard").trigger("itemClick");
+                $("#mainMap").hide();
+                $("#moreChance").show();
+                if(needQQ){
+                    for(var i=1;i<=4;i++){
+                        var name = "pkg"+i;
+                        $(".moviePkg:eq("+(i-1)+") img").attr("src",_tencentPkginfo[name].img);
+                        $(".moviePkg:eq("+(i-1)+")").attr("productid",_tencentPkginfo[name].product_id);
+                        $(".moviePkg:eq("+(i-1)+")").attr("price",_tencentPkginfo[name].price);
+                        $(".moviePkg:eq("+(i-1)+")").attr("type",_tencentPkginfo[name].type);
+                        $(".moviePkg:eq("+(i-1)+")").attr("name",_tencentPkginfo[name].name);
+                    }
+                }else{
+                    for(var i=1;i<=4;i++){
+                        var name = "pkg"+i;
+                        $(".moviePkg:eq("+(i-1)+") img").attr("src",_yinhePkginfo[name].img);
+                        $(".moviePkg:eq("+(i-1)+")").attr("productid",_yinhePkginfo[name].product_id);
+                        $(".moviePkg:eq("+(i-1)+")").attr("price",_yinhePkginfo[name].price);
+                        $(".moviePkg:eq("+(i-1)+")").attr("type",_yinhePkginfo[name].type);
+                        $(".moviePkg:eq("+(i-1)+")").attr("name",_yinhePkginfo[name].name);
+                    }
                 }
+                map = new coocaakeymap($(".coocaabtn2"),null,"btnFocus", function() {}, function(val) {}, function(obj) {});
+                var landstatus = 0;
+                if(loginstatus == "true"){landstatus = 1;}
+                var activitystatus = 1;
+                if(gameStatus == "wait"){activitystatus = 0}
+                sentLog("nalm_view_card_page_button_onclick",'{"button_name":"3","activity_status":"'+activitystatus+'","login_status":"'+landstatus+'"}');
+                sentLog("web_page_show_new",'{"page_name":"nalm_buy_for_view_card_page","activity_status":"'+activitystatus+'","login_status":"'+landstatus+'"}');
             }
-            map = new coocaakeymap($(".coocaabtn2"),null,"btnFocus", function() {}, function(val) {}, function(obj) {});
-            var landstatus = 0;
-            if(loginstatus == "true"){landstatus = 1;}
-            var activitystatus = 1;
-            if(gameStatus == "wait"){activitystatus = 0}
-            sentLog("nalm_view_card_page_button_onclick",'{"button_name":"3","activity_status":"'+activitystatus+'","landing_status":"'+landstatus+'"}');
-            sentLog("web_page_show_new",'{"page_name":"nalm_buy_for_view_card_page","activity_status":"'+activitystatus+'","landing_status":"'+landstatus+'"}');
         }
-
     })
 
     $("#strategy").unbind("itemClick").bind("itemClick",function(){
@@ -288,8 +302,8 @@ function initBtn() {
         if(loginstatus == "true"){landstatus = 1;}
         var activitystatus = 1;
         if(gameStatus == "wait"){activitystatus = 0}
-        sentLog("nalm_main_page_button_onclick",'{"button_name":"money_strategyl","activity_status":"'+activitystatus+'","landing_status":"'+landstatus+'"}');
-        sentLog("web_page_show_new",'{"page_name":"nalm_money_strategy_page","activity_status":"'+activitystatus+'","landing_status":"'+landstatus+'"}');
+        sentLog("nalm_main_page_button_onclick",'{"button_name":"money_strategyl","activity_status":"'+activitystatus+'","login_status":"'+landstatus+'"}');
+        sentLog("web_page_show_new",'{"page_name":"nalm_money_strategy_page","activity_status":"'+activitystatus+'","login_status":"'+landstatus+'"}');
         map = new coocaakeymap($(".coocaabtn3"),$("#tips"),"btnFocus", function() {}, function(val) {}, function(obj) {});
         $("#tips").trigger("itemFocus");
     })
@@ -318,6 +332,12 @@ function initBtn() {
        $(".wordbox").attr("leftTarget","#tips");
     })
 
+    $("#gotoLottery").bind("itemFocus",function(){
+        $("#cityNum").css("top","429px");
+    })
+    $("#gotoLottery").bind("itemBlur",function(){
+        $("#cityNum").css("top","427px");
+    })
     $("#gotoLottery").unbind("itemClick").bind("itemClick",function(){
         needFresh = true;
         needRememberFocus = true;
@@ -326,8 +346,9 @@ function initBtn() {
         if(loginstatus == "true"){landstatus = 1;}
         var activitystatus = 1;
         if(gameStatus == "wait"){activitystatus = 0}
-        sentLog("nalm_main_page_button_onclick",'{"button_name":"draw_lottery","activity_status":"'+activitystatus+'","landing_status":"'+landstatus+'"}');
-       coocaaosapi.startNewBrowser("http://beta.webapp.skysrt.com/lxw/gq/index.html?part=draw&source=main",function(){},function(){});
+        sentLog("nalm_main_page_button_onclick",'{"button_name":"draw_lottery","activity_status":"'+activitystatus+'","login_status":"'+landstatus+'"}');
+        coocaaosapi.removeUserChanggedListener(function(){});
+       coocaaosapi.startNewBrowser(drawurl,function(){},function(){});
     })
     $("#myGift,#myGift2").unbind("itemClick").bind("itemClick",function(){
         needFresh = true;
@@ -336,9 +357,10 @@ function initBtn() {
         var landstatus = 0;
         if(loginstatus == "true"){landstatus = 1;}
         var activitystatus = 1;
-        if(gameStatus == "wait"){activitystatus = 0}
-        sentLog("nalm_main_page_button_onclick",'{"button_name":"my_award","activity_status":"'+activitystatus+'","landing_status":"'+landstatus+'"}');
-       coocaaosapi.startNewBrowser("http://beta.webapp.skysrt.com/lxw/gq/index.html?part=award&source=main",function(){},function(){});
+        if(gameStatus == "wait"){activitystatus = 0}else if(gameStatus == "end"){activitystatus = 2}
+        sentLog("nalm_main_page_button_onclick",'{"button_name":"my_award","activity_status":"'+activitystatus+'","login_status":"'+landstatus+'"}');
+        coocaaosapi.removeUserChanggedListener(function(){});
+       coocaaosapi.startNewBrowser(awardurl+activitystatus,function(){},function(){});
     })
 
     $("#morecard").unbind("itemClick").bind("itemClick",function(){
@@ -349,9 +371,9 @@ function initBtn() {
         var activitystatus = 1;
         if(gameStatus == "wait"){activitystatus = 0}
         if(getUrlParam("goto")!="shop"){
-            sentLog("nalm_main_page_button_onclick",'{"button_name":"more_chance","activity_status":"'+activitystatus+'","landing_status":"'+landstatus+'"}');
+            sentLog("nalm_main_page_button_onclick",'{"button_name":"more_chance","activity_status":"'+activitystatus+'","login_status":"'+landstatus+'"}');
         }
-        sentLog("web_page_show_new",'{"page_name":"nalm_buy_for_view_card_page","activity_status":"'+activitystatus+'","landing_status":"'+landstatus+'"}');
+        sentLog("web_page_show_new",'{"page_name":"nalm_buy_for_view_card_page","activity_status":"'+activitystatus+'","login_status":"'+landstatus+'"}');
        if(needQQ){
             for(var i=1;i<=4;i++){
                 var name = "pkg"+i;
@@ -387,8 +409,8 @@ function initBtn() {
             sentLog("nalm_buy_for_view_card_pay_arouse",'{"module_type":"'+pagetype+'","content_id":"'+pageid+'","content_name":"'+pagename+'"}');
             order($(this).attr("productid"),$(this).attr("price"));
         }else{
-            startLogin(needQQ);
             sentLog("nalm_account_landing_page_exposure",'{"page_name":"nalm_buy_for_view_card_page"}');
+            startLogin(needQQ);
         }
     })
 
@@ -405,7 +427,8 @@ function initBtn() {
         needFresh = true;
         needRememberFocus = true;
         rememberFocus = "#gotoLottery";
-        coocaaosapi.startNewBrowser("http://beta.webapp.skysrt.com/lxw/gq/index.html?part=draw&source=main",function(){},function(){});
+        coocaaosapi.removeUserChanggedListener(function(){});
+        coocaaosapi.startNewBrowser(drawurl,function(){},function(){});
     })
 
     $("#toastbtn2").unbind("itemClick").bind("itemClick",function () {
@@ -417,7 +440,7 @@ function initBtn() {
     $("#moreMovie").unbind("itemClick").bind("itemClick",function () {
         var landstatus = 0;
         if(loginstatus == "true"){landstatus = 1;}
-        sentLog("nalm_buy_for_view_card_page_button_onclick",'{"button_name":"0","landing_status":"'+landstatus+'"}');
+        sentLog("nalm_buy_for_view_card_page_button_onclick",'{"button_name":"0","login_status":"'+landstatus+'"}');
         if(needQQ){
             coocaaosapi.startMovieMemberCenter("0","5",function(){exit()},function(){})
         }else{
@@ -428,14 +451,14 @@ function initBtn() {
     $("#moreEdu").unbind("itemClick").bind("itemClick",function () {
         var landstatus = 0;
         if(loginstatus == "true"){landstatus = 1;}
-        sentLog("nalm_buy_for_view_card_page_button_onclick",'{"button_name":"1","landing_status":"'+landstatus+'"}');
+        sentLog("nalm_buy_for_view_card_page_button_onclick",'{"button_name":"1","login_status":"'+landstatus+'"}');
         coocaaosapi.startMovieMemberCenter("1","",function(){exit()},function(){})
     })
 
     $("#moreMall").unbind("itemClick").bind("itemClick",function () {
         var landstatus = 0;
         if(loginstatus == "true"){landstatus = 1;}
-        sentLog("nalm_buy_for_view_card_page_button_onclick",'{"button_name":"2","landing_status":"'+landstatus+'"}');
+        sentLog("nalm_buy_for_view_card_page_button_onclick",'{"button_name":"2","login_status":"'+landstatus+'"}');
         coocaaosapi.startHomeCommonList("10168",function(){exit()},function(){})
     })
 }
@@ -466,7 +489,7 @@ function order(productid,price) {
     $.ajax({
         type: "get",
         async: true,
-        url: "http://172.20.132.182:8090/v3/order/genOrderByJsonp.html?data=" + data1, //需改
+        url: "https://api-business.skysrt.com/v3/order/genOrderByJsonp.html?data=" + data1, //需改
         dataType: "jsonp",
         jsonp: "callback",
         timeout: 20000,
@@ -475,7 +498,7 @@ function order(productid,price) {
             if (data.code == 0) {
                 orderId = data.data.orderId;
                 console.log("订单编号1：" + orderId);
-                coocaaosapi.purchaseOrder2(data.data.appcode, data.data.orderId, data.data.orderTitle, data.data.back_url, data.data.total_pay_fee, "虚拟", "com.webviewsdk.action.pay", "pay", "2.378b41b74eb048f795637b0d7d0d9aa6", "13333333333",
+                coocaaosapi.purchaseOrder2(data.data.appcode, data.data.orderId, data.data.orderTitle, data.data.back_url, data.data.total_pay_fee, "虚拟", "com.webviewsdk.action.pay", "pay", access_token, mobile,
                     function(success){console.log("----------startpaysuccess------------" + success);},
                     function(error){console.log(error);});
             } else {
@@ -493,7 +516,7 @@ function listenUser() {
     coocaaosapi.addUserChanggedListener(function(message) {
         console.log("账户状态变化")
         //刷新前的逻辑判断
-        hasLogin(needQQ);
+        needSentUserLog = true;
     });
 }
 
@@ -502,7 +525,9 @@ function listenPay() {
     coocaaosapi.addPurchaseOrderListener(function(message) {
         console.log("xjr----------->startpurcharse message  支付结果 " + JSON.stringify(message));
         if (message.presultstatus == 0) {
-
+            sentLog("nalm_buy_for_view_card_pay_result",'{"pay_result":"1"}');
+        }else{
+            sentLog("nalm_buy_for_view_card_pay_result",'{"pay_result":"0"}');
         }
     });
 }
@@ -519,9 +544,13 @@ function listenCommon() {
 
 function startMission(obj) {
     if($(obj).attr("missionType") == "page"){
-        coocaaosapi.startHomeCommonList($(obj).attr("missionId"),function(msg){exit()},function(error){});
+        if(cAppVersion < 3300001){
+            coocaaosapi.startHomeCommonList($(obj).attr("missionId"),function(msg){exit()},function(error){});
+        }else{
+            coocaaosapi.startHomeTab(startActionReplace,$(obj).attr("missionId"),function(msg){exit()},function(error){})
+        }
     }else  if($(obj).attr("missionType") == "video"){
-        coocaaosapi.startCommonWebview("", $(obj).attr("missionUrl"), "看视频点亮城市卡", "", "", "", "视频广告", "", function(message) {
+        coocaaosapi.startCommonWebview("", $(obj).attr("missionUrl"), "观看精彩视频点亮城市卡", "", "", "", "视频广告", "", function(message) {
             console.log(message);
         }, function(error) {
             console.log("commonTask----error")
@@ -557,14 +586,14 @@ function initGameStatus() {
                 $("#cityCard"+i+" .cityBtn").html("继续点亮");
                 $("#cityCard"+(i)+" .cityImg img").attr("src",_powerData["city"+(i+1)].lightimg);
                 if(cityNum<3){
-                    $("#cityCard"+i+" .cardTitle").html("累积点亮3张");
-                    $("#cityCard"+i+" .cityBottom").html("<span class='lightmoney'>即有机会领取1000元现金哦！</span>");
+                    $("#cityCard"+i+" .cardTitle").html("累计点亮3张");
+                    $("#cityCard"+i+" .cityBottom").html("<span class='lightmoney'>有机会领1000元现金！</span>");
                 }else if(cityNum>=7){
-                    $("#cityCard"+i+" .cardTitle").html("累积点亮15张");
-                    $("#cityCard"+i+" .cityBottom").html("<span class='lightmoney'>即有机会领取10000元现金哦！</span>");
+                    $("#cityCard"+i+" .cardTitle").html("累计点亮15张");
+                    $("#cityCard"+i+" .cityBottom").html("<span class='lightmoney'>有机会领10000元现金！</span>");
                 }else{
-                    $("#cityCard"+i+" .cardTitle").html("累积点亮7张");
-                    $("#cityCard"+i+" .cityBottom").html("<span class='lightmoney'>即有机会领取5000元现金哦！</span>");
+                    $("#cityCard"+i+" .cardTitle").html("累计点亮7张");
+                    $("#cityCard"+i+" .cityBottom").html("<span class='lightmoney'>有机会领5000元现金！</span>");
                 }
 
             }else{
@@ -588,17 +617,18 @@ function initGameStatus() {
             $(".cardTitle").html("今日点亮机会已用完");
             $(".cityBottom").html("<span class='nochancename'>快获得更多机会，冲刺万元现金大奖！</span>");
         }
+
+        if(totalNum == 0){
+            $(".cityBtn").html("我要点亮");
+            $(".cardTitle").html("点亮景点可领现金/实物奖励");
+            $(".cityBottom").html("<span class='immediatelyname'>累计点亮3张还有机会赢1000元大奖！</span>");
+        }
         if(forNum == 15){
             $(".cardTitle").html("即刻抽取万元现金");
             $(".cityBottom").html("<span class='finishlightname'>获得赢取10000元现金的机会！</span>");
             $(".cityBtn").html("抽万元现金");
             initMap("#city0");
             initMap("#gotoLottery");
-        }
-        if(totalNum == 0){
-            $(".cityBtn").html("我要点亮");
-            $(".cardTitle").html("点亮景点可领现金/实物奖励");
-            $(".cityBottom").html("<span class='immediatelyname'>累计点亮3张还有机会赢1000元大奖！</span>");
         }
         if(needShowWindow){
             needShowWindow = false;
@@ -631,6 +661,7 @@ function initGameStatus() {
 
 //页面初始化或刷新
 function showPage(first,resume) {
+    console.log("$$$$$$$$$$$$$$$$$$===="+first+"==========="+resume)
     if(first){
         if(getUrlParam("goto")=="shop"){
             needgotoshop = true;
@@ -645,13 +676,12 @@ function showPage(first,resume) {
     forNum = 0;
     lightCity = [];
     $(".cityBtn").removeClass("hasLight");
-    console.log("---"+macAddress+"------"+TVchip+"-----"+TVmodel+"------"+emmcId+"--------"+activityId + "---------"+initType);
+    console.log("---"+macAddress+"------"+TVchip+"-----"+TVmodel+"------"+emmcId+"--------"+activityId + "---------"+initType+"-------"+cOpenId);
     $.ajax({
         type: "GET",
         async: true,
         url: adressIp + "/light/active/"+actionId+"/init",
-        data: {id:actionId, MAC:macAddress,cChip:TVchip,cModel:TVmodel,cEmmcCID:emmcId,cUDID:activityId,initType:initType},
-        // data: {id:137, MAC:111,cChip:111,cModel:111,cEmmcCID:111,cUDID:12345678444,initType:"all"},
+        data: {id:actionId, MAC:macAddress,cChip:TVchip,cModel:TVmodel,cEmmcCID:emmcId,cUDID:activityId,initType:initType,cOpenId:cOpenId,source:movieSource},
         dataType: "jsonp",
         jsonp: "callback",
         success: function(data) {
@@ -674,7 +704,7 @@ function showPage(first,resume) {
                     if(first && getUrlParam("goto")!="shop"){
                         var landstatus = 0;
                         if(loginstatus == "true"){landstatus = 1;}
-                        sentLog("web_page_show_new",'{"page_name":"nalm_main_activity_page","activity_status":"1","landing_status":"'+landstatus+'"}')
+                        sentLog("web_page_show_new",'{"page_name":"nalm_main_activity_page","activity_status":"1","login_status":"'+landstatus+'"}')
                     }
                 }
                 for(var i=1;i<=15;i++){
@@ -685,7 +715,7 @@ function showPage(first,resume) {
                     $("#cityCard"+(i-1)+" .cityBtn").attr("missionType",data.data.cityTask[checkCity].type);
                     $("#cityCard"+(i-1)+" .cityBtn").attr("missionId",data.data.cityTask[checkCity].id);
                     $("#cityCard"+(i-1)+" .cityBtn").attr("missionUrl",data.data.cityTask[checkCity].url);
-                    $("#cityCard"+(i-1)+" .cityBottom").html("<span class='missionName'>"+data.data.cityTask[checkCity].name+"</span>");
+                    $("#cityCard"+(i-1)+" .cityBottom").html("<span class='missionName' style='font-weight: bold'>"+data.data.cityTask[checkCity].name+"</span>");
                     if(data.data.cityTask[checkCity].type == "video"){
                         $("#cityCard"+(i-1)+" .cardTitle").html("点亮景点可领现金/实物奖励");
                     }else{
@@ -697,7 +727,7 @@ function showPage(first,resume) {
                 if(first && getUrlParam("goto")!="shop"){
                     var landstatus = 0;
                     if(loginstatus == "true"){landstatus = 1;}
-                    sentLog("web_page_show_new",'{"page_name":"nalm_main_activity_page","activity_status":"0","landing_status":"'+landstatus+'"}')
+                    sentLog("web_page_show_new",'{"page_name":"nalm_main_activity_page","activity_status":"0","login_status":"'+landstatus+'"}')
                 }
             // }else if(data.code == 50003){
             }else{
@@ -705,7 +735,7 @@ function showPage(first,resume) {
                 if(first && getUrlParam("goto")!="shop"){
                     var landstatus = 0;
                     if(loginstatus == "true"){landstatus = 1;}
-                    sentLog("web_page_show_new",'{"page_name":"nalm_main_activity_page","activity_status":"2","landing_status":"'+landstatus+'"}')
+                    sentLog("web_page_show_new",'{"page_name":"nalm_main_activity_page","activity_status":"2","login_status":"'+landstatus+'"}')
                 }
             }
 
