@@ -44,7 +44,7 @@ var forNum = 0;
 // var adressIp = "http://beta.restful.lottery.coocaatv.com";
 var adressIp = "https://restful.skysrt.com";
 // var actionId = "143";
-var actionId = "61";
+var actionId = "55";
 
 var _listenObj = null;
 var _listenNum = null;
@@ -58,6 +58,10 @@ var startActionReplace = "coocaa.intent.action.HOME";
 var drawurl = "https://webapp.skysrt.com/national/lottery/index.html?part=draw&source=main";
 var awardurl = "https://webapp.skysrt.com/national/lottery/index.html?part=award&source=main&status=";
 var mainurl = "https://webapp.skysrt.com/national/main/index.html";
+
+// var drawurl = "http://beta.webapp.skysrt.com/lxw/gq/index.html?part=draw&source=main";
+// var awardurl = "http://beta.webapp.skysrt.com/lxw/gq/index.html?part=award&source=main&status=";
+// var mainurl = "http://beta.webapp.skysrt.com/games/yure/index.html";
 
 var _powerData = {
     "city1":{"from":"——李静宜《台湾海峡的风》","title":"台湾海峡的风，吹向稀微的山坪。","name":"台北101","img":"http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/city1.png","lightimg":"http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/fcity1.png"},

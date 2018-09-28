@@ -341,9 +341,12 @@ function lightCityApi(obj,num,type,parentNode) {
                     $("#cityNum").html(cityNum);
                     $("#remainNum").html(remainNum);
                     if(!data.data.haveAward){
-                        $("#gif1").show();
-                        $("#gif1").attr("src","http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/gif1.gif");
-                        $(parentNode).children('.cardTitle').html("领到一张景点新语卡");
+                        function showgif(){
+                            $("#gif1").show();
+                            $("#gif1").attr("src","http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/finalgif1.gif");
+                        }
+                        setTimeout(showgif,1000);
+                        $(parentNode).children('.cardTitle').html("恭喜领到一张景点新语卡");
                         if(cityNum<3){
                             $(parentNode).children('.cityBottom').html("<span class='xinyu1'>"+_powerData[data.data.cityKey].title+"</span><span class='xinyu2'>"+_powerData[data.data.cityKey].from+"</span><span class='xinyu3'>累计点亮3张，即有机会领取1000元现金哦！</span> ");
                         }else if(cityNum>=7){
@@ -353,8 +356,8 @@ function lightCityApi(obj,num,type,parentNode) {
                         }
                     }else{
                         $("#gif2").show();
-                        $("#gif2").attr("src","http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/gif222.gif");
-                        $(parentNode).children('.cardTitle').html("获得"+data.data.awardRemember.awardName);
+                        $("#gif2").attr("src","http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/finalgif2.gif");
+                        $(parentNode).children('.cardTitle').html("恭喜获得"+data.data.awardRemember.awardName);
                         $(parentNode).children('.cityBottom').html('<span class="awardimg"><img src="'+data.data.awardRemember.awardUrl+'"></span><span class="awardword">&nbsp;请在活动页面-<br>【我的奖励】中领取</span> ');
                     }
                     needFresh = true;
@@ -366,7 +369,7 @@ function lightCityApi(obj,num,type,parentNode) {
                     if(!data.data.haveAward){
                         $("#citybtn").html("继续点亮");
                         btnFrom = "gohome";
-                        $('#wordtitle').html("领到一张景点新语卡");
+                        $('#wordtitle').html("恭喜领到一张景点新语卡");
                         if(data.data.userCityMap.lightNumber<3){
                             $("#cityword").html("<span class='xinyu1'>"+_powerData[data.data.cityKey].title+"</span><span class='xinyu2'>"+_powerData[data.data.cityKey].from+"</span><span class='xinyu3'>累计点亮3张，即有机会领取1000元现金哦！</span> ");
                         }else if(data.data.userCityMap.lightNumber>=7){
@@ -377,7 +380,7 @@ function lightCityApi(obj,num,type,parentNode) {
                     }else{
                         $("#citybtn").html("马上领取");
                         btnFrom = "gogift";
-                        $('#wordtitle').html("获得"+data.data.awardRemember.awardName);
+                        $('#wordtitle').html("恭喜获得"+data.data.awardRemember.awardName);
                         $("#cityword").html('<span class="awardimg"><img src="'+data.data.awardRemember.awardUrl+'"></span><span class="awardword">&nbsp;请在活动页面-<br>【我的奖励】中领取</span> ');
                     }
                     $(".pkg:eq(3)").attr("leftTarget","#citybtn");

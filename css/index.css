@@ -41,7 +41,7 @@ body {
     margin: auto;
     background-repeat: no-repeat;
     background-size: 100%;
-    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/toast.png");
+    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/toast123.png");
     z-index: 33;
 }
 .awardBtn1,.awardBtn2{
@@ -116,20 +116,20 @@ body {
     z-index: 333;
 }
 #gif1{
-    width: 732px;
-    height: 694px;
+    width: 244px;
+    height: 174px;
     position: absolute;
-    top:276px;
-    left: 995px;
+    top:358px;
+    left: 1457px;
     z-index: 333;
     display: none;
 }
 #gif2{
-    width: 379px;
-    height: 141px;
+    width: 237px;
+    height: 120px;
     position: absolute;
-    top:648px;
-    left: 1290px;
+    top:594px;
+    left: 1466px;
     z-index: 333;
     display: none;
 }
@@ -323,10 +323,10 @@ body {
     position: relative;
 }
 #gotoLottery{
-    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/newbtn/lottery1.png");
+    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/newbtn/finallottery.png");
 }
 #gotoLottery.btnFocus{
-    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/newbtn/lottery1.gif");
+    background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/newbtn/finallottery.gif");
 }
 #myGift,#myGift2{
     background: url("http://sky.fs.skysrt.com/statics/webvip/webapp/national/mainMap/newbtn/mygift.png");

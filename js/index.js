@@ -30,7 +30,11 @@ var app = {
 
     },
     handleBackButtonDown: function() {
-        if($("#blackbg").css("display") == "block"){
+        if($("#toast2").css("display") == "block"){
+            $("#blackbg").hide();
+            $("#toast2").hide();
+            initMap("#city"+rememberMapFocus);
+        } else if($("#blackbg").css("display") == "block"){
 
         }else if($("#moreChance").css("display") == "block"){
             if(exitWeb){
