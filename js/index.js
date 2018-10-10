@@ -92,7 +92,7 @@ var app = {
             TVchip = message.chip;
             activityId = message.activeid;
             if (message.emmcid ==""||message.emmcid==null) {
-                emmcId = "";
+                emmcId = "654321";
             } else{
                 emmcId = message.emmcid;
             }
@@ -263,7 +263,7 @@ function initBtn() {
                 if(gameStatus == "wait"){activitystatus = 0}
                 sentLog("nalm_main_page_button_onclick",'{"button_name":"4","activity_status":"'+activitystatus+'","login_status":"'+landstatus+'"}');
                 coocaaosapi.removeUserChanggedListener(function(){});
-                coocaaosapi.startNewBrowser(drawurl,function(){},function(){});
+                coocaaosapi.startNewBrowser2(drawurl,function(){},function(){});
             }else{
                 console.log("没有机会，需要购买!");
                 // $("#morecard").trigger("itemClick");
@@ -352,7 +352,7 @@ function initBtn() {
         if(gameStatus == "wait"){activitystatus = 0}
         sentLog("nalm_main_page_button_onclick",'{"button_name":"draw_lottery","activity_status":"'+activitystatus+'","login_status":"'+landstatus+'"}');
         coocaaosapi.removeUserChanggedListener(function(){});
-       coocaaosapi.startNewBrowser(drawurl,function(){},function(){});
+       coocaaosapi.startNewBrowser2(drawurl,function(){},function(){});
     })
     $("#myGift,#myGift2").unbind("itemClick").bind("itemClick",function(){
         needFresh = true;
@@ -364,7 +364,7 @@ function initBtn() {
         if(gameStatus == "wait"){activitystatus = 0}else if(gameStatus == "end"){activitystatus = 2}
         sentLog("nalm_main_page_button_onclick",'{"button_name":"my_award","activity_status":"'+activitystatus+'","login_status":"'+landstatus+'"}');
         coocaaosapi.removeUserChanggedListener(function(){});
-       coocaaosapi.startNewBrowser(awardurl+activitystatus,function(){},function(){});
+       coocaaosapi.startNewBrowser2(awardurl+activitystatus,function(){},function(){});
     })
 
     $("#morecard").unbind("itemClick").bind("itemClick",function(){
@@ -432,7 +432,7 @@ function initBtn() {
         needRememberFocus = true;
         rememberFocus = "#gotoLottery";
         coocaaosapi.removeUserChanggedListener(function(){});
-        coocaaosapi.startNewBrowser(drawurl,function(){},function(){});
+        coocaaosapi.startNewBrowser2(drawurl,function(){},function(){});
     })
 
     $("#toastbtn2").unbind("itemClick").bind("itemClick",function () {

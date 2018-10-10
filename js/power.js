@@ -51,7 +51,7 @@ var app = {
             TVchip = message.chip;
             activityId = message.activeid;
             if (message.emmcid ==""||message.emmcid==null) {
-                emmcId = "";
+                emmcId = "654321";
             } else{
                 emmcId = message.emmcid;
             }
@@ -88,7 +88,7 @@ function initBtn() {
             var activitystatus = 1;
             if(gameStatus == "wait"){activitystatus = 0}
             sentLog("nalm_channel_task_page_button_onclick",'{"module_type":"'+comefrom+'","button_name":"0","activity_status":"'+activitystatus+'","login_status":"'+landstatus+'"}');
-            coocaaosapi.startNewBrowser(awardurl+activitystatus,function(){},function(){});
+            coocaaosapi.startNewBrowser2(awardurl+activitystatus,function(){},function(){});
         }
     })
 
